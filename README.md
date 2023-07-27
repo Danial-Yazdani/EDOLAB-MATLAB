@@ -2,16 +2,40 @@
 
 > A MATLAB Optimization Platform for Education and Experimentation in Dynamic Environments
 
-**Git repository:** [DanialYazdani/EDOLAB: A MATLAB Platform for Evolutionary Dynamic Optimization](https://github.com/DanialYazdani/EDOLAB)
+**Git repository:** [EDOLAB-platform/EDOLAB-MATLAB (github.com)](https://github.com/EDOLAB-platform/EDOLAB-MATLAB)
 
 **The current version is `v1.00`**
 
-## Get Started
+## Author List
+* **MAI PENG**, pengmai@cug.edu.cn, School of Automation, China University of Geosciences,Wuhan, Hubei Key Laboratory of Advanced Control and Intelligent Automation for Complex Systems, and Engineering Research Center of Intelligent Technology for Geo-Exploration, Ministry of
+Education, China, 430074; 
 
+* **ZENENG SHE**, 20s151103@stu.hit.edu.cn, School of Computer Science and Technology, Harbin Institute of Technology, Shenzhen, China, 518055; 
+
+* **DELARAM YAZDANI**, delaram.yazdani@yahoo.com, Department of Computer Engineering, Mashhad Branch, Azad University, Mashhad, Iran; 
+
+* **DANIAL YAZDANI**, danial.yazdani@gmail.com, Faculty of Engineering & Information Technology, University of Technology Sydney, Ultimo, Australia, 2007; 
+
+* **WENJIAN LUO**, luowenjian@hit.edu.cn, Guangdong Provincial Key Laboratory of Novel Security Intelligence Technologies, School of Computer Science and Technology, Harbin Institute of Technology and Peng Cheng Laboratory, Shenzhen, China, 518055; 
+
+* **CHANGHE LI**, changhe.lw@gmail.com, School of Automation, China University of Geosciences, Wuhan, Hubei Key Laboratory of Advanced Control and Intelligent Automation for Complex Systems, and Engineering Research Center of Intelligent Technology for Geo-Exploration, Ministry of Education, China, 430074; 
+
+* **JUERGEN BRANKE**, Juergen.Branke@wbs.ac.uk, Operational Research and Management Sciences Group in Warwick Business school, University of Warwick, Coventry, United Kingdom, CV4 7AL; 
+
+* **TRUNG THANH NGUYEN**, T.T.Nguyen@ljmu.ac.uk, The Liverpool Logistics, Offshore and Marine (LOOM) Research Institute, Faculty of Engineering and Technology, Liverpool John Moores University, Liverpool, United Kingdom, L2 2ER; 
+
+* **Amir H. Gandomi**, Gandomi@uts.edu.au, Faculty of Engineering & Information Technology, University of Technology Sydney, Ultimo, Australia, 2007 and University Research and Innovation Center (EKIK), Obuda University, Budapest, Hungary, 1034; 
+
+* **YAOCHU JIN**, yaochu.jin@uni-bielefeld.de, Faculty of Technology, Bielefeld University,
+Bielefeld, Germany, 33615; 
+
+* **XIN YAO**, xiny@sustech.edu.cn, Research Institute of Trustworthy Autonomous Systems (RITAS), and Guangdong Provincial Key Laboratory of Brain inspired Intelligent Computation, Department of Computer Science and Engineering, Southern University of Science and Technology, Shenzhen, China, 518055 and The Center of Excellence for Research in Computational Intelligence and Applications (CERCIA), School of Computer Science, University of Birmingham, Birmingham, United Kingdom, B15 2TT.
+
+## Get Started
 
 ```bash
 # clone the project
-git clone https://github.com/DanialYazdani/EDOLAB.git
+git clone https://github.com/EDOLAB-platform/EDOLAB-MATLAB
 ```
 
 ## Using EDOLAB via GUI
@@ -57,7 +81,7 @@ git clone https://github.com/DanialYazdani/EDOLAB.git
   > %  The current version of EDOLAB includes the following algorithms (EADOs):
   > %  'ACFPSO', 'AMPDE', 'AMPPSO', 'AmQSO', 'AMSO', 'CDE', 'CESO', 'CPSO', 'CPSOR' 
   > %  'DSPSO', 'DynDE', 'DynPopDE', 'FTMPSO', 'HmSO',  'IDSPSO', 'ImQSO' 
-  > %  'mCMAES', 'mDE', 'mjDE', 'mQSO' , 'MSPSO', 'psfNBC', 'RPSO', 'TMIPSO'
+  > %  'mCMAES', 'mDE', 'mjDE', 'mQSO' , 'SPSO_AD_AP', 'psfNBC', 'RPSO', 'TMIPSO'
   > BenchmarkName = 'GMPB';     %Please input the name of benchmark you want to use here (names are case sensitive).
   > %  The current version of EDOLAB includes the following benchmark generators: 'MPB' , 'GMPB' , 'FPs'
   > ```
@@ -136,7 +160,7 @@ _If VisualizationOverOptimization == 0, the experimentation module is activated,
 
 ## For More Information
 
-If you want to learn more about EDOLAB, please refer to [Paper]() for more information
+If you would like to learn more about EDOLAB, please contact MAI PENG at pengmai@cug.edu.cn or Danial Yazdani at danial.yazdani@gmail.com.
 
 ## MATLAB Support
 <img src="https://www.mathworks.com/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/images/pic-header-mathworks-logo.20221030234646672.svg" width="35%">
