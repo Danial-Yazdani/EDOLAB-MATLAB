@@ -160,7 +160,7 @@ _If VisualizationOverOptimization == 0, the experimentation module is activated,
 
 ## For More Information
 
-If you would like to learn more about EDOLAB, please contact MAI PENG at pengmai@cug.edu.cn or Danial Yazdani at danial.yazdani@gmail.com.
+If you would like to learn more about EDOLAB, please contact Mai Peng at pengmai@cug.edu.cn or Danial Yazdani at danial.yazdani@gmail.com.
 
 ## MATLAB Support
 <img src="https://www.mathworks.com/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/images/pic-header-mathworks-logo.20221030234646672.svg" width="35%">
