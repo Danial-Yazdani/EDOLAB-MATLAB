@@ -11,6 +11,7 @@
 %
 %  Title: "Evolutionary Dynamic Optimization Laboratory: A MATLAB Optimization
 %  Platform for Education and Experimentation in Dynamic Environments"
+%  ArXiv: arxiv.org/abs/2308.12644
 %  Note: reference information will be completed after acceptance of the paper
 %
 % ------------
