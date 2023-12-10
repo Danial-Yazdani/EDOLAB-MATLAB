@@ -67,9 +67,9 @@ ChangeFrequency                = 5000;%The default value is 5000
 Dimension                      = 5;   %The default value is 5. It must be set to 2 for using Education module
 ShiftSeverity                  = 1;   %The default value is 1
 EnvironmentNumber              = 100;  %The default value is 100
-RunNumber                      = 31;   %It should be set to 31 in Experimentation module, and must be set to 2 for using Education module.
+RunNumber                      = 3;   %It should be set to 31 in Experimentation module, and must be set to 2 for using Education module.
 %% ********Figures and Outputs********
-GeneratingExcelFile            = 0;   %Set to 1 (only for using the Experimentation module) to save the output statistics in an Excel file (in the Results folder), 0 otherwise. 
+GeneratingExcelFile            = 1;   %Set to 1 (only for using the Experimentation module) to save the output statistics in an Excel file (in the Results folder), 0 otherwise. 
 OutputFig                      = 1;   %Set to 1 (only for using the Experimentation module) to draw offline error over time and current error plot, 0 otherwise.
 VisualizationOverOptimization  = 0;   %Set to 1 for using the Education module, 0 otherwise. This must be set to 0 if the user intends to use the Experimentation module.
 %If VisualizationOverOptimization is set to 1, it means that EDOLAB enters its Education module. 
