@@ -1,6 +1,6 @@
 %**************Generalized Moving Peaks Benchmark (GMPB)******************************************************************************
 %Author: Danial Yazdani
-%Last Edited: February 10, 2022
+%Last Edited: December 10, 2023
 % e-mail: danial DOT yazdani AT gmail DOT com
 % ------------
 % Reference:
@@ -35,7 +35,7 @@ function [result,Problem] = fitness_GMPB(X,Problem)
    for k=1 : Problem.PeakNumber
        a = Transform((x - Problem.PeaksPosition(k,:,Problem.Environmentcounter)')'*Problem.RotationMatrix{Problem.Environmentcounter}(:,:,k)',Problem.tau(Problem.Environmentcounter,k),Problem.eta(k,:,Problem.Environmentcounter));
        b = Transform(Problem.RotationMatrix{Problem.Environmentcounter}(:,:,k) * (x - Problem.PeaksPosition(k,:,Problem.Environmentcounter)'),Problem.tau(Problem.Environmentcounter,k),Problem.eta(k,:,Problem.Environmentcounter));
-       f(k) = Problem.PeaksHeight(Problem.Environmentcounter,k) - sqrt( a * diag(Problem.PeaksWidth(k,:,Problem.Environmentcounter).^2) * b);
+       f(k) = Problem.PeaksHeight(Problem.Environmentcounter,k) - sqrt( a * diag(Problem.PeaksWidth(k,:,Problem.Environmentcounter)) * b);
    end
    result = max(f);
 end
