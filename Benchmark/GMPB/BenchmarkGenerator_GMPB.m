@@ -1,7 +1,7 @@
 %**************Generalized Moving Peaks Benchmark (GMPB)******************************************************************************
 %
 %Author: Danial Yazdani
-%Last Edited: February 10, 2022
+%Last Edited: December 10, 2023
 %e-mail: danial DOT yazdani AT gmail DOT com
 %
 % ------------
