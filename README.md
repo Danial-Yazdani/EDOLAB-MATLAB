@@ -24,7 +24,7 @@ Education, China, 430074;
 
 * **TRUNG THANH NGUYEN**, T.T.Nguyen@ljmu.ac.uk, The Liverpool Logistics, Offshore and Marine (LOOM) Research Institute, Faculty of Engineering and Technology, Liverpool John Moores University, Liverpool, United Kingdom, L2 2ER; 
 
-* **Amir H. Gandomi**, Gandomi@uts.edu.au, Faculty of Engineering & Information Technology, University of Technology Sydney, Ultimo, Australia, 2007 and University Research and Innovation Center (EKIK), Obuda University, Budapest, Hungary, 1034; 
+* **AMIR H. GANDOMI**, Gandomi@uts.edu.au, Faculty of Engineering & Information Technology, University of Technology Sydney, Ultimo, Australia, 2007 and University Research and Innovation Center (EKIK), Obuda University, Budapest, Hungary, 1034; 
 
 * **YAOCHU JIN**, yaochu.jin@uni-bielefeld.de, Faculty of Technology, Bielefeld University,
 Bielefeld, Germany, 33615; 
@@ -160,12 +160,13 @@ _If VisualizationOverOptimization == 0, the experimentation module is activated,
 
 ## For More Information
 
-If you would like to learn more about EDOLAB, please contact Mai Peng at pengmai@cug.edu.cn or Danial Yazdani at danial.yazdani@gmail.com.
+For more information about EDOLAB, please refer to the [paper](https://arxiv.org/abs/2308.12644). If you need further assistance, please contact Mai Peng at [pengmai@cug.edu.cn](mailto:pengmai@cug.edu.cn) or Danial Yazdani at [danial.yazdani@gmail.com](mailto:danial.yazdani@gmail.com).
 
 ## MATLAB Support
 <img src="https://www.mathworks.com/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/images/pic-header-mathworks-logo.20221030234646672.svg" width="35%">
 <br>
 
+* Requires [Statistics and Machine Learning Toolbox](https://www.mathworks.com/help/stats/).
 * **EDOLAB via GUI** requires [MATLAB R2020b+](https://www.mathworks.com/products/new_products/release2020b.html).
 * **EDOLAB without GUI** requires [MATLAB R2016b+](https://www.mathworks.com/help/doc-archives.html).
 
