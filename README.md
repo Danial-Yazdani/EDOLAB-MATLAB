@@ -4,7 +4,7 @@
 
 **Git repository:** [EDOLAB-platform/EDOLAB-MATLAB (github.com)](https://github.com/EDOLAB-platform/EDOLAB-MATLAB)
 
-**The current version is `v1.00`**
+**The current version is `v1.01`**
 
 ## Author List
 * **MAI PENG**, pengmai@cug.edu.cn, School of Automation, China University of Geosciences,Wuhan, Hubei Key Laboratory of Advanced Control and Intelligent Automation for Complex Systems, and Engineering Research Center of Intelligent Technology for Geo-Exploration, Ministry of
@@ -167,6 +167,7 @@ For more information about EDOLAB, please refer to the [paper](https://arxiv.org
 <br>
 
 * Requires [Statistics and Machine Learning Toolbox](https://www.mathworks.com/help/stats/).
+* Requires [Deep Learning Toolbox] for using 'rands'.
 * **EDOLAB via GUI** requires [MATLAB R2020b+](https://www.mathworks.com/products/new_products/release2020b.html).
 * **EDOLAB without GUI** requires [MATLAB R2016b+](https://www.mathworks.com/help/doc-archives.html).
 
