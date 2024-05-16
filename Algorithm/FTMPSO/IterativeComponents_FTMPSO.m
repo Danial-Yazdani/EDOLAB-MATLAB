@@ -176,7 +176,7 @@ if Optimizer.SwarmNumber > 0
     end
     if Optimizer.SwarmNumber>0
         for ii=1 : Optimizer.TryNumber
-            DummyPosition = Optimizer.pop(BestSwarmIndex).BestPosition + rands(1,Optimizer.Dimension)*Optimizer.Cloud;
+            DummyPosition = Optimizer.pop(BestSwarmIndex).BestPosition + (2*rand(1,Optimizer.Dimension)-1)*Optimizer.Cloud;
             [DummyFitnessValue,Problem] = fitness(DummyPosition,Problem);
             if Problem.RecentChange == 1
                 return;

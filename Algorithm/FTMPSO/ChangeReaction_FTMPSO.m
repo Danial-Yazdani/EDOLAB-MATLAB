@@ -37,9 +37,9 @@ end
 Optimizer.Cloud = 0.2 * Optimizer.ShiftSeverity;
 %% Introducing diversity (all except free swarm)
 for jj=1 : Optimizer.SwarmNumber
-    Optimizer.pop(jj).X = repmat(Optimizer.pop(jj).BestPosition,Optimizer.PopulationSize,1)+ (rands(Optimizer.PopulationSize,Optimizer.Dimension)*Optimizer.P*Optimizer.ShiftSeverity);
+    Optimizer.pop(jj).X = repmat(Optimizer.pop(jj).BestPosition,Optimizer.PopulationSize,1)+ ((2*rand(Optimizer.PopulationSize,Optimizer.Dimension)-1)*Optimizer.P*Optimizer.ShiftSeverity);
     Optimizer.pop(jj).X(1,:) = Optimizer.pop(jj).BestPosition;
-    Optimizer.pop(jj).Velocity = rands(Optimizer.PopulationSize,Optimizer.Dimension)*Optimizer.Q*Optimizer.ShiftSeverity;
+    Optimizer.pop(jj).Velocity = (2*rand(Optimizer.PopulationSize,Optimizer.Dimension)-1)*Optimizer.Q*Optimizer.ShiftSeverity;
     Optimizer.pop(jj).Sleeping = 0;
 end
 %% Updating memory

@@ -94,7 +94,7 @@ for ii=1 : Optimizer.SwarmNumber
         for tries = 1:5
             BestPosition(1,:) = Optimizer.pop(ii).X(Optimizer.pop(ii).GbestID,:);
             for gg = 1:Problem.Dimension
-                BestPosition(1,gg) = BestPosition(1,gg) + normrnd(0,Optimizer.pop(ii).CurrentRadius);
+                BestPosition(1,gg) = BestPosition(1,gg) + Optimizer.pop(ii).CurrentRadius*randn();
                 if BestPosition(1,gg) > Optimizer.MaxCoordinate
                    BestPosition(1,gg) = Optimizer.MaxCoordinate;
                 elseif BestPosition(1,gg) < Optimizer.MinCoordinate
@@ -276,15 +276,15 @@ if(NonStagnatedRadius < 0.005 * Optimizer.domainS)
 
     ritio = abs(Optimizer.CurPopSize - Optimizer.PrePopSize)/Optimizer.OffPeak;
     if(ritio >= 1)
-        NextIndividuals = normrnd(Optimizer.MapPopInds(Optimizer.CurPopSize).Mean,Optimizer.MapPopInds(Optimizer.CurPopSize).StdDev) + Optimizer.StepIndivs * 1 * (Optimizer.CurPopSize - Optimizer.PrePopSize);
+        NextIndividuals = (Optimizer.MapPopInds(Optimizer.CurPopSize).Mean + Optimizer.MapPopInds(Optimizer.CurPopSize).StdDev*randn()) + Optimizer.StepIndivs * 1 * (Optimizer.CurPopSize - Optimizer.PrePopSize);
     elseif(ritio == 0)
-        NextIndividuals = normrnd(Optimizer.MapPopInds(Optimizer.CurPopSize).Mean,Optimizer.MapPopInds(Optimizer.CurPopSize).StdDev);
+        NextIndividuals = (Optimizer.MapPopInds(Optimizer.CurPopSize).Mean + Optimizer.MapPopInds(Optimizer.CurPopSize).StdDev*randn());
     else
         p = rand(1,1);
         if(p <= ritio)
-            NextIndividuals = normrnd(Optimizer.MapPopInds(Optimizer.CurPopSize).Mean,Optimizer.MapPopInds(Optimizer.CurPopSize).StdDev) + Optimizer.StepIndivs * 1 * (Optimizer.CurPopSize - Optimizer.PrePopSize);
+            NextIndividuals = (Optimizer.MapPopInds(Optimizer.CurPopSize).Mean + Optimizer.MapPopInds(Optimizer.CurPopSize).StdDev*randn()) + Optimizer.StepIndivs * 1 * (Optimizer.CurPopSize - Optimizer.PrePopSize);
         else
-            NextIndividuals = normrnd(Optimizer.MapPopInds(Optimizer.CurPopSize).Mean,Optimizer.MapPopInds(Optimizer.CurPopSize).StdDev);
+            NextIndividuals = (Optimizer.MapPopInds(Optimizer.CurPopSize).Mean + Optimizer.MapPopInds(Optimizer.CurPopSize).StdDev*randn());
         end
     end
     

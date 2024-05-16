@@ -37,7 +37,7 @@ end
 %% Introducing diversity (all except free swarm)
 for jj=1 : Optimizer.SwarmNumber
     if jj~=Optimizer.FreeSwarmID
-        Optimizer.pop(jj).X = repmat(Optimizer.pop(jj).BestPosition,Optimizer.PopulationSize,1)+ (rands(Optimizer.PopulationSize,Optimizer.Dimension)*Optimizer.ShiftSeverity);
+        Optimizer.pop(jj).X = repmat(Optimizer.pop(jj).BestPosition,Optimizer.PopulationSize,1)+ ((2*rand(Optimizer.PopulationSize,Optimizer.Dimension)-1)*Optimizer.ShiftSeverity);
         Optimizer.pop(jj).X(1,:) = Optimizer.pop(jj).BestPosition;
     end
 end

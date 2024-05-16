@@ -34,14 +34,14 @@ nowPath = mfilename('fullpath');
 projectPath = nowPath(1:max(strfind(nowPath,'\'))-1);
 addpath(genpath(projectPath));
 %% ********Selecting Algorithm & Benchmark********
-AlgorithmName = 'SPSO_AP_AD';    %Please input the name of algorithm (EADO) you want to run here (names are case sensitive).
+AlgorithmName = 'AMPPSO';    %Please input the name of algorithm (EADO) you want to run here (names are case sensitive).
 %  The list of algorithms (EADOs) and some of their details can be found in Table 1 of the EDOLAB's paper.
 %  The current version of EDOLAB includes the following algorithms (EADOs):
 %  'ACFPSO' , 'AMPDE' , 'AMPPSO' , 'AmQSO' , 'AMSO' , 'CDE' , 'CESO', 'CPSO' , 'CPSOR' 
 %  'DSPSO' , 'DynDE' , 'DynPopDE' , 'FTMPSO' , 'HmSO' ,  'IDSPSO' , 'ImQSO' , 'mCMAES'
 %  'mDE' , 'mjDE' , 'mPSO' , 'mQSO' , 'psfNBC' , 'RPSO' , 'SPSO_AP_AD' , 'TMIPSO' 
-BenchmarkName = 'GMPB';     %Please input the name of benchmark you want to use here (names are case sensitive).
-%  The current version of EDOLAB includes the following benchmark generators: 'MPB' , 'GMPB' , 'FPs'
+BenchmarkName = 'FPs';     %Please input the name of benchmark you want to use here (names are case sensitive).
+%  The current version of EDOLAB includes the following benchmark generators: 'MPB' , 'GDBG' , 'GMPB' , 'FPs'
 %% Get the algorithm and benchmark lists
 AlgorithmsFloder = dir([projectPath,'\Algorithm']);
 AlgorithmsList = repmat("",length(AlgorithmsFloder)-2,1);
@@ -67,8 +67,8 @@ PeakNumber                     = 10;  %The default value is 10
 ChangeFrequency                = 5000;%The default value is 5000
 Dimension                      = 5;   %The default value is 5. It must be set to 2 for using Education module
 ShiftSeverity                  = 1;   %The default value is 1
-EnvironmentNumber              = 100;  %The default value is 100
-RunNumber                      = 3;   %It should be set to 31 in Experimentation module, and must be set to 2 for using Education module.
+EnvironmentNumber              = 5;  %The default value is 100
+RunNumber                      = 2;   %It should be set to 31 in Experimentation module, and must be set to 2 for using Education module.
 %% ********Figures and Outputs********
 GeneratingExcelFile            = 1;   %Set to 1 (only for using the Experimentation module) to save the output statistics in an Excel file (in the Results folder), 0 otherwise. 
 OutputFig                      = 1;   %Set to 1 (only for using the Experimentation module) to draw offline error over time and current error plot, 0 otherwise.

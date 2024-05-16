@@ -44,7 +44,7 @@ end
 
 for ii=1 : SpeciesNumber
     for jj=1 : numel(Species(ii).members)
-        Optimizer.pop.X(Species(ii).members(jj),:) = Optimizer.pop.PbestPosition(Species(ii).seed,:) + rands(1,Optimizer.Dimension)*Optimizer.QuantumRadius;
+        Optimizer.pop.X(Species(ii).members(jj),:) = Optimizer.pop.PbestPosition(Species(ii).seed,:) + (2*rand(1,Optimizer.Dimension)-1)*Optimizer.QuantumRadius;
         [Optimizer.pop.FitnessValue(Species(ii).members(jj)),Problem] = fitness(Optimizer.pop.X(Species(ii).members(jj),:),Problem);
         Optimizer.pop.PbestValue(Species(ii).members(jj)) = Optimizer.pop.FitnessValue(Species(ii).members(jj));
         Optimizer.pop.PbestPosition(Species(ii).members(jj),:) = Optimizer.pop.X(Species(ii).members(jj),:);

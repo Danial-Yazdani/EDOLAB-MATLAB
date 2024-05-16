@@ -67,7 +67,7 @@ if(Optimizer.Iteration <= 2)
              for pp =1 : size(Optimizer.pop(ii).X,1)
                  if(Optimizer.pop(ii).IndivType(pp) == 2)
                      if(pp ~= Optimizer.pop(ii).GbestID)
-                        XQuantum = normrnd(0,1,1,Optimizer.Dimension);
+                        XQuantum = randn(1,Optimizer.Dimension);
                         Optimizer.pop(ii).X(pp,:) = Optimizer.pop(ii).X(Optimizer.pop(ii).GbestID,:) + (XQuantum .* Rcloud * rand(1,1))/sqrt(sum(XQuantum.^2));
                         for dd = 1:Optimizer.Dimension
                             if Optimizer.pop(ii).X(pp,dd) > Optimizer.MaxCoordinate
@@ -98,7 +98,7 @@ if(Optimizer.Iteration <= 2)
             for tries = 1:3
                 BestPosition(1,:) = Optimizer.pop(ii).X(Optimizer.pop(ii).GbestID,:);
                 for gg = 1:Problem.Dimension
-                    BestPosition(1,gg) = BestPosition(1,gg) + normrnd(0,sigma);
+                    BestPosition(1,gg) = BestPosition(1,gg) + sigma*randn();
                     if BestPosition(1,gg) > Optimizer.MaxCoordinate
                        BestPosition(1,gg) = Optimizer.MaxCoordinate;
                     elseif BestPosition(1,gg) < Optimizer.MinCoordinate
@@ -192,7 +192,7 @@ elseif(Optimizer.Iteration > 2)
              for pp =1 : size(Optimizer.pop(ii).X,1)
                  if(Optimizer.pop(ii).IndivType(pp) == 2)
                      if(pp ~= Optimizer.pop(ii).GbestID)
-                        XQuantum = normrnd(0,1,1,Optimizer.Dimension);
+                        XQuantum = randn(1,Optimizer.Dimension);
                         Optimizer.pop(ii).X(pp,:) = Optimizer.pop(ii).X(Optimizer.pop(ii).GbestID,:) + (XQuantum .* Rcloud * rand(1,1))/sqrt(sum(XQuantum.^2));
                         for dd = 1:Optimizer.Dimension
                             if Optimizer.pop(ii).X(pp,dd) > Optimizer.MaxCoordinate
@@ -259,7 +259,7 @@ elseif(Optimizer.Iteration > 2)
                 sigma = 0.2;
                 BestPosition(1,:) = Optimizer.pop(ii).X(Optimizer.pop(ii).GbestID,:);
                 for gg = 1:Problem.Dimension
-                    BestPosition(1,gg) = BestPosition(1,gg) + normrnd(0,sigma);
+                    BestPosition(1,gg) = BestPosition(1,gg) + sigma*randn();
                     if BestPosition(1,gg) > Optimizer.MaxCoordinate
                        BestPosition(1,gg) = Optimizer.MaxCoordinate;
                     elseif BestPosition(1,gg) < Optimizer.MinCoordinate

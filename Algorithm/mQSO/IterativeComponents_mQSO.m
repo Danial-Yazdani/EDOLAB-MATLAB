@@ -55,7 +55,7 @@ for ii=1 : Optimizer.SwarmNumber
     end
     %     end
     for jj=1 : Optimizer.QuantumNumber
-        QuantumPosition = Optimizer.pop(ii).BestPosition + rands(1,Optimizer.Dimension)*Optimizer.QuantumRadius;
+        QuantumPosition = Optimizer.pop(ii).BestPosition + (2*rand(1, Optimizer.Dimension)-1)*Optimizer.QuantumRadius;
         [QuantumFitnessValue,Problem] = fitness(QuantumPosition,Problem);
         if Problem.RecentChange == 1
             return;

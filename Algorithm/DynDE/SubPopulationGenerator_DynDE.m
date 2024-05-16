@@ -55,7 +55,7 @@ for i=1:length(Swarm)
         Swarm(i).X(1:NormalIndiv,:) = MinCoordinate + ((MaxCoordinate-MinCoordinate).*rand(NormalIndiv,Dimension));
         [Swarm(i).FitnessValue(1:NormalIndiv),Problem] = fitness(Swarm(i).X(1:NormalIndiv,:),Problem);
         [~,ID] = max(Swarm(i).FitnessValue(1:NormalIndiv));
-        XQuantum = normrnd(0,1,QuantumIndiv,Dimension);
+        XQuantum = randn(QuantumIndiv,Dimension);
         Swarm(i).X(NormalIndiv+1:IndivSize,:) = Swarm(i).X(ID,:) + (XQuantum .* Rcloud * rand(1,1))/sqrt(sum(XQuantum.^2));
         [Swarm(i).FitnessValue(NormalIndiv+1:IndivSize),Problem] = fitness(Swarm(i).X(NormalIndiv+1:IndivSize,:),Problem);
     elseif DiversityFlag == 3

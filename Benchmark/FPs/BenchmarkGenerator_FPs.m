@@ -132,9 +132,9 @@ function Problem = BenchmarkGenerator_FPs(PeakNumber,ChangeFrequency,Dimension,S
                v_normed(l,:) = v(l,:)./norm(v(l,:));
            end
            if(ii - 2 > 0)
-               Problem.PeaksPosition(:,:,ii) = Problem.PeaksPosition(:,:,ii-1) + (Problem.PeaksPosition(:,:,ii-1) - Problem.PeaksPosition(:,:,ii-2))*Problem.Lambda + v_normed * (1-Problem.Lambda) * normrnd(0,Problem.ShiftSeverity);
+               Problem.PeaksPosition(:,:,ii) = Problem.PeaksPosition(:,:,ii-1) + (Problem.PeaksPosition(:,:,ii-1) - Problem.PeaksPosition(:,:,ii-2))*Problem.Lambda + v_normed * (1-Problem.Lambda) * (Problem.ShiftSeverity * randn());
            elseif(ii -2 <= 0)
-               Problem.PeaksPosition(:,:,ii) = Problem.PeaksPosition(:,:,ii-1) + v_normed * normrnd(0,Problem.ShiftSeverity);            
+               Problem.PeaksPosition(:,:,ii) = Problem.PeaksPosition(:,:,ii-1) + v_normed * (Problem.ShiftSeverity * randn());            
            end
            
            for kk = 1:Problem.PeakNumber
@@ -148,12 +148,12 @@ function Problem = BenchmarkGenerator_FPs(PeakNumber,ChangeFrequency,Dimension,S
            end
            %Height Change
            for kk = 1:Problem.PeakNumber
-               Problem.PeaksHeight(ii,kk) =  Problem.PeaksHeight(ii - 1,kk) + normrnd(0,Problem.HeightSeverity * rand(1,1));
+               Problem.PeaksHeight(ii,kk) =  Problem.PeaksHeight(ii - 1,kk) + Problem.HeightSeverity*randn();
                while(Problem.PeaksHeight(ii,kk) < Problem.MinHeight)
-                  Problem.PeaksHeight(ii,kk) = Problem.PeaksHeight(ii,kk) + abs(normrnd(0,Problem.HeightSeverity * rand(1,1)));
+                  Problem.PeaksHeight(ii,kk) = Problem.PeaksHeight(ii,kk) + abs(Problem.HeightSeverity*randn());
                end
                while(Problem.PeaksHeight(ii,kk) > Problem.MaxHeight)
-                  Problem.PeaksHeight(ii,kk) = Problem.PeaksHeight(ii,kk) - abs(normrnd(0,Problem.HeightSeverity * rand(1,1)));
+                  Problem.PeaksHeight(ii,kk) = Problem.PeaksHeight(ii,kk) - abs(Problem.HeightSeverity*randn());
                end
            end
            %Function Change

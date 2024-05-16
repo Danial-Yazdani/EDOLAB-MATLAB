@@ -166,8 +166,6 @@ For more information about EDOLAB, please refer to the [paper](https://arxiv.org
 <img src="https://www.mathworks.com/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/images/pic-header-mathworks-logo.20221030234646672.svg" width="35%">
 <br>
 
-* Requires [Statistics and Machine Learning Toolbox](https://www.mathworks.com/help/stats/).
-* Requires [Deep Learning Toolbox] for using 'rands'.
 * **EDOLAB via GUI** requires [MATLAB R2020b+](https://www.mathworks.com/products/new_products/release2020b.html).
 * **EDOLAB without GUI** requires [MATLAB R2016b+](https://www.mathworks.com/help/doc-archives.html).
 
