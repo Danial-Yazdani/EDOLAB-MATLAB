@@ -83,7 +83,7 @@ git clone https://github.com/Danial-Yazdani/EDOLAB-MATLAB
   > %  'DSPSO', 'DynDE', 'DynPopDE', 'FTMPSO', 'HmSO',  'IDSPSO', 'ImQSO' 
   > %  'mCMAES', 'mDE', 'mjDE', 'mQSO' , 'SPSO_AD_AP', 'psfNBC', 'RPSO', 'TMIPSO'
   > BenchmarkName = 'GMPB';     %Please input the name of benchmark you want to use here (names are case sensitive).
-  > %  The current version of EDOLAB includes the following benchmark generators: 'MPB' , 'GMPB' , 'FPs' , 'GNBG'
+  > %  The current version of EDOLAB includes the following benchmark generators: 'MPB' , 'GMPB' , 'FPs' , 'GDBG'
   > ```
 
 * Set ***Benchmark Parameters*** 
