@@ -4,7 +4,7 @@
 
 **Git repository:** [EDOLAB-platform/EDOLAB-MATLAB (github.com)](https://github.com/EDOLAB-platform/EDOLAB-MATLAB)
 
-**The current version is `v1.01`**
+**The current version is `v1.10`**
 
 ## Author List
 * **MAI PENG**, pengmai@cug.edu.cn, School of Automation, China University of Geosciences,Wuhan, Hubei Key Laboratory of Advanced Control and Intelligent Automation for Complex Systems, and Engineering Research Center of Intelligent Technology for Geo-Exploration, Ministry of
@@ -35,7 +35,7 @@ Bielefeld, Germany, 33615;
 
 ```bash
 # clone the project
-git clone https://github.com/EDOLAB-platform/EDOLAB-MATLAB
+git clone https://github.com/Danial-Yazdani/EDOLAB-MATLAB
 ```
 
 ## Using EDOLAB via GUI
@@ -60,7 +60,7 @@ git clone https://github.com/EDOLAB-platform/EDOLAB-MATLAB
 
   * Set the parameters [*Number of promising regions, Change Frequency, Shift Severity, Number of Environment*] 
 
-    > *Please note that the education module is used for educational display, so the **dimension fixed as 2***
+    > *Please note that the education module is used for educational display, so the **dimension is fixed to 2***
 
   * Run the instance
 
@@ -83,7 +83,7 @@ git clone https://github.com/EDOLAB-platform/EDOLAB-MATLAB
   > %  'DSPSO', 'DynDE', 'DynPopDE', 'FTMPSO', 'HmSO',  'IDSPSO', 'ImQSO' 
   > %  'mCMAES', 'mDE', 'mjDE', 'mQSO' , 'SPSO_AD_AP', 'psfNBC', 'RPSO', 'TMIPSO'
   > BenchmarkName = 'GMPB';     %Please input the name of benchmark you want to use here (names are case sensitive).
-  > %  The current version of EDOLAB includes the following benchmark generators: 'MPB' , 'GMPB' , 'FPs'
+  > %  The current version of EDOLAB includes the following benchmark generators: 'MPB' , 'GMPB' , 'FPs' , 'GNBG'
   > ```
 
 * Set ***Benchmark Parameters*** 
