@@ -56,7 +56,7 @@ function F = composition_DBG(X, Problem)
 
         for i = 1:length(weights)
             if weights(i) ~= max_weight
-                weights(i) = weights(i) * (1 - max_weight / 10);
+                weights(i) = weights(i) * (1 - power(max_weight, 10));
             end
         end
 

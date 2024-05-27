@@ -75,9 +75,9 @@ function Problem = BenchmarkGenerator_GDBG(PeakNumber,ChangeFrequency,Dimension,
         Problem.M = Problem.M * R;
     end
     for jj=1:Problem.PeakNumber
-        if EnvironmentVisualization(Problem.PeaksPosition(jj,:,1),Problem)==Problem.PeaksHeight(1,jj)
-            Problem.PeakVisibility(1,jj)= 1;
-        end
+            if abs(EnvironmentVisualization(Problem.PeaksPosition(jj,:,1),Problem) - Problem.PeaksHeight(1,jj)) < 0.1
+                Problem.PeakVisibility(1,jj)= 1;
+            end
     end
     for ii=2 : Problem.EnvironmentNumber%Generating all environments
         Problem.FunctionSelect(ii,:) = ceil(Problem.MinFunctionID-1 + (Problem.MaxFunctionID-Problem.MinFunctionID+1)*rand(Problem.PeakNumber,1));
@@ -104,7 +104,5 @@ function Problem = BenchmarkGenerator_GDBG(PeakNumber,ChangeFrequency,Dimension,
         end
     end
     result = EnvironmentVisualization(Problem.PeaksPosition(:,:,ii),Problem);
-    disp(result)
-    disp(Problem.PeaksHeight(ii,:))
     Problem.Environmentcounter = 1;
 end
