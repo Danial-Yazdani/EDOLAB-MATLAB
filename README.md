@@ -2,7 +2,7 @@
 
 > A MATLAB Optimization Platform for Education and Experimentation in Dynamic Environments
 
-**Git repository:** [EDOLAB-platform/EDOLAB-MATLAB (github.com)](https://github.com/EDOLAB-platform/EDOLAB-MATLAB)
+**Git repository:** [Danial-Yazdani/EDOLAB-MATLAB (github.com)](https://github.com/Danial-Yazdani/EDOLAB-MATLAB)
 
 **The current version is `v1.10`**
 
