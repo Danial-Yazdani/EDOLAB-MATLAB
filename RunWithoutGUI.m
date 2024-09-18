@@ -34,7 +34,7 @@ nowPath = mfilename('fullpath');
 projectPath = nowPath(1:max(strfind(nowPath,'\'))-1);
 addpath(genpath(projectPath));
 %% ********Selecting Algorithm & Benchmark********
-AlgorithmName = 'AMPPSO';    %Please input the name of algorithm (EADO) you want to run here (names are case sensitive).
+AlgorithmName = 'ACFPSO';    %Please input the name of algorithm (EADO) you want to run here (names are case sensitive).
 %  The list of algorithms (EADOs) and some of their details can be found in Table 1 of the EDOLAB's paper.
 %  The current version of EDOLAB includes the following algorithms (EADOs):
 %  'ACFPSO' , 'AMPDE' , 'AMPPSO' , 'AmQSO' , 'AMSO' , 'CDE' , 'CESO', 'CPSO' , 'CPSOR' 
@@ -67,8 +67,8 @@ PeakNumber                     = 10;  %The default value is 10
 ChangeFrequency                = 5000;%The default value is 5000
 Dimension                      = 5;   %The default value is 5. It must be set to 2 for using Education module
 ShiftSeverity                  = 1;   %The default value is 1
-EnvironmentNumber              = 5;  %The default value is 100
-RunNumber                      = 2;   %It should be set to 31 in Experimentation module, and must be set to 2 for using Education module.
+EnvironmentNumber              = 10;  %The default value is 100
+RunNumber                      = 3;   %It should be set to 31 in Experimentation module, and must be set to 2 for using Education module.
 %% ********Figures and Outputs********
 GeneratingExcelFile            = 1;   %Set to 1 (only for using the Experimentation module) to save the output statistics in an Excel file (in the Results folder), 0 otherwise. 
 OutputFig                      = 1;   %Set to 1 (only for using the Experimentation module) to draw offline error over time and current error plot, 0 otherwise.
@@ -88,14 +88,15 @@ if VisualizationOverOptimization==1%Forcing the right values for the following p
 end
 %% Running the chosen algorithm (EDOA) on the chosen benchmark
 main_EDO = str2func(['main_',AlgorithmName]);
-[Problem,E_bbc,E_o,CurrentError,VisualizationInfo,Iteration] = main_EDO(VisualizationOverOptimization,PeakNumber,ChangeFrequency,Dimension,ShiftSeverity,EnvironmentNumber,RunNumber,BenchmarkName);
+[Problem,E_bbc,E_o,T_r,CurrentError,VisualizationInfo,Iteration] = main_EDO(VisualizationOverOptimization,PeakNumber,ChangeFrequency,Dimension,ShiftSeverity,EnvironmentNumber,RunNumber,BenchmarkName);
 %% Output
 close;clc;
 disp(['Offline error ==> ', ' Mean = ', num2str(E_o.mean), ', Median = ', num2str(E_o.median), ', Standard Error = ', num2str(E_o.StdErr)]);
 disp(['Average error before change ==> ', ' Mean = ', num2str(E_bbc.mean), ', Median = ', num2str(E_bbc.median), ', Standard Error = ', num2str(E_bbc.StdErr)]);
+disp(['Runtime ==> ', ' Mean = ', num2str(T_r.mean), 's, Median = ', num2str(T_r.median), 's, Standard Error = ', num2str(T_r.StdErr), 's']);
 % Generating an Excel file containing output statistics (only for the Experimentation module)
 if GeneratingExcelFile==1
-    OutputExcel(AlgorithmName,BenchmarkName,ChangeFrequency,Dimension,PeakNumber,ShiftSeverity,RunNumber,EnvironmentNumber,E_o,E_bbc,[projectPath,'\Results']);
+    OutputExcel(AlgorithmName,BenchmarkName,ChangeFrequency,Dimension,PeakNumber,ShiftSeverity,RunNumber,EnvironmentNumber,E_o,E_bbc,T_r,[projectPath,'\Results']);
 end
 % Generating an output figure containing offline error and current error plots (only for the Experimentation module)
 if OutputFig==1

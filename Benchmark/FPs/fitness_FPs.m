@@ -22,10 +22,10 @@
 %*************************************************************************************************************************************
 function [result,Problem] = fitness_FPs(X,Problem)
    for jj = 1:Problem.Dimension        %Ensure that out of bounds solutions can be evaluated normally
-      if (X(1,jj) < Problem.l_sv)
-         X(1,jj) = Problem.l_sv;
-      elseif (X(1,jj) > Problem.u_sv)
-         X(1,jj) = Problem.u_sv;
+      if (X(1,jj) < Problem.MinCoordinate)
+         X(1,jj) = Problem.MinCoordinate;
+      elseif (X(1,jj) > Problem.MaxCoordinate)
+         X(1,jj) = Problem.MaxCoordinate;
       end
    end
    [Map_X,X_SubSpace] = Transfer(X,Problem,Problem.Environmentcounter);
@@ -61,11 +61,11 @@ function y = SelectFitnessFunc(x,Peak_ID,Function_ID,Problem,EnvironmentNum,lowe
         case 1 
             y = s1(x,Problem.PeaksHeight(EnvironmentNum,Peak_ID),Problem.PeaksPositionMap(Peak_ID,:,EnvironmentNum),repmat([Problem.l_sv,Problem.u_sv],Problem.Dimension,1));
         case 2
-            y = s2(x,Problem.PeaksHeight(EnvironmentNum,Peak_ID),Problem.PeaksPositionMap(Peak_ID,:,EnvironmentNum),repmat([Problem.l_sv,Problem.u_sv],Problem.Dimension,1));
+            y = s3(x,Problem.PeaksHeight(EnvironmentNum,Peak_ID),Problem.PeaksPositionMap(Peak_ID,:,EnvironmentNum),repmat([Problem.l_sv,Problem.u_sv],Problem.Dimension,1));
         case 3
             y = s3(x,Problem.PeaksHeight(EnvironmentNum,Peak_ID),Problem.PeaksPositionMap(Peak_ID,:,EnvironmentNum),repmat([Problem.l_sv,Problem.u_sv],Problem.Dimension,1));
         case 4
-            y = s4(x,Problem.PeaksHeight(EnvironmentNum,Peak_ID),Problem.PeaksPositionMap(Peak_ID,:,EnvironmentNum),repmat([Problem.l_sv,Problem.u_sv],Problem.Dimension,1));
+            y = s5(x,Problem.PeaksHeight(EnvironmentNum,Peak_ID),Problem.PeaksPositionMap(Peak_ID,:,EnvironmentNum),repmat([Problem.l_sv,Problem.u_sv],Problem.Dimension,1));
         case 5
             y = s5(x,Problem.PeaksHeight(EnvironmentNum,Peak_ID),Problem.PeaksPositionMap(Peak_ID,:,EnvironmentNum),repmat([Problem.l_sv,Problem.u_sv],Problem.Dimension,1));
         case 6

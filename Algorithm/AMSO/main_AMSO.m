@@ -19,15 +19,17 @@
 % e-mail: danial DOT yazdani AT gmail DOT com
 % Copyright notice: (c) 2023 Danial Yazdani
 %**************************************************************************************************
-function [Problem,E_bbc,E_o,CurrentError,VisualizationInfo,Iteration] = main_AMSO(VisualizationOverOptimization,PeakNumber,ChangeFrequency,Dimension,ShiftSeverity,EnvironmentNumber,RunNumber,BenchmarkName)
+function [Problem,E_bbc,E_o,T_r,CurrentError,VisualizationInfo,Iteration] = main_AMSO(VisualizationOverOptimization,PeakNumber,ChangeFrequency,Dimension,ShiftSeverity,EnvironmentNumber,RunNumber,BenchmarkName)
 BestErrorBeforeChange = NaN(1,RunNumber);
 OfflineError = NaN(1,RunNumber);
 CurrentError = NaN (RunNumber,ChangeFrequency*EnvironmentNumber);
+Runtime = NaN(1,RunNumber);
 for RunCounter=1 : RunNumber
     if VisualizationOverOptimization ~= 1
         rng(RunCounter);%This random seed setting is used to initialize the Problem
     end
     Problem = BenchmarkGenerator(PeakNumber,ChangeFrequency,Dimension,ShiftSeverity,EnvironmentNumber,BenchmarkName);
+    tic;
     rng('shuffle');%Set a random seed for the optimizer
     %% Initialiing Optimizer
     clear Optimizer;
@@ -108,10 +110,12 @@ for RunCounter=1 : RunNumber
             break;
         end
     end
+    elapsedTime = toc;
     %% Performance indicator calculation
     BestErrorBeforeChange(1,RunCounter) = mean(Problem.Ebbc);
     OfflineError(1,RunCounter) = mean(Problem.CurrentError);
     CurrentError(RunCounter,:) = Problem.CurrentError;
+    Runtime(1,RunCounter) = elapsedTime;
 end
 %% Output preparation
 E_bbc.mean = mean(BestErrorBeforeChange);
@@ -122,7 +126,10 @@ E_o.mean = mean(OfflineError);
 E_o.median = median(OfflineError);
 E_o.StdErr = std(OfflineError)/sqrt(RunNumber);
 E_o.AllResults =OfflineError;
-
+T_r.mean = mean(Runtime);
+T_r.median = median(Runtime);
+T_r.StdErr = std(Runtime)/sqrt(RunNumber);
+T_r.AllResults = Runtime;
 if VisualizationOverOptimization==1
     tmp = cell(1, Iteration);
     for ii=1 : Iteration
