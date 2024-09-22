@@ -8,8 +8,7 @@
 % Reference:
 % ------------
 %
-%  Title: "Evolutionary Dynamic Optimization Laboratory: A MATLAB Optimization
-%  Platform for Education and Experimentation in Dynamic Environments"
+%  Title: "EDOLAB: An Open-Source Platform for Education and Experimentation with Evolutionary Dynamic Optimization Algorithms"
 %  ArXiv: arxiv.org/abs/2308.12644
 %  Note: reference information will be completed after acceptance of the paper
 %

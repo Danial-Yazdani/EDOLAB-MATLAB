@@ -9,8 +9,7 @@
 % Reference:
 % ------------
 %
-%  Title: "Evolutionary Dynamic Optimization Laboratory: A MATLAB Optimization
-%  Platform for Education and Experimentation in Dynamic Environments"
+%  Title: "EDOLAB: An Open-Source Platform for Education and Experimentation with Evolutionary Dynamic Optimization Algorithms"
 %  ArXiv: arxiv.org/abs/2308.12644
 %  Note: reference information will be completed after acceptance of the paper
 %
@@ -67,7 +66,7 @@ PeakNumber                     = 10;  %Number of promising regions--the default 
 ChangeFrequency                = 5000;%The default value is 5000
 Dimension                      = 5;   %The default value is 5. It must be set to 2 for using Education module
 ShiftSeverity                  = 1;   %The default value is 1
-EnvironmentNumber              = 100;  %The default value is 100
+EnvironmentNumber              = 10;  %The default value is 100
 RunNumber                      = 3;   %It should be set to 31 in Experimentation module, and must be set to 2 for using Education module.
 %% ********Figures and Outputs********
 GeneratingExcelFile            = 1;   %Set to 1 (only for using the Experimentation module) to save the output statistics in an Excel file (in the Results folder), 0 otherwise. 
