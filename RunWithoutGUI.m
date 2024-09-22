@@ -3,7 +3,7 @@
 %Authors: Mai Peng and Danial Yazdani
 % e-mails: pengmai1998 AT gmail DOT com
 %          danial DOT yazdani AT gmail DOT com
-%Last Edited: July 11, 2023
+%Last Edited: September 22, 2024
 %
 % ------------
 % Reference:
@@ -34,13 +34,13 @@ nowPath = mfilename('fullpath');
 projectPath = nowPath(1:max(strfind(nowPath,'\'))-1);
 addpath(genpath(projectPath));
 %% ********Selecting Algorithm & Benchmark********
-AlgorithmName = 'ACFPSO';    %Please input the name of algorithm (EADO) you want to run here (names are case sensitive).
+AlgorithmName = 'mQSO';    %Please input the name of algorithm (EADO) you want to run here (names are case sensitive).
 %  The list of algorithms (EADOs) and some of their details can be found in Table 1 of the EDOLAB's paper.
 %  The current version of EDOLAB includes the following algorithms (EADOs):
 %  'ACFPSO' , 'AMPDE' , 'AMPPSO' , 'AmQSO' , 'AMSO' , 'CDE' , 'CESO', 'CPSO' , 'CPSOR' 
 %  'DSPSO' , 'DynDE' , 'DynPopDE' , 'FTMPSO' , 'HmSO' ,  'IDSPSO' , 'ImQSO' , 'mCMAES'
 %  'mDE' , 'mjDE' , 'mPSO' , 'mQSO' , 'psfNBC' , 'RPSO' , 'SPSO_AP_AD' , 'TMIPSO' 
-BenchmarkName = 'FPs';     %Please input the name of benchmark you want to use here (names are case sensitive).
+BenchmarkName = 'GMPB';     %Please input the name of benchmark you want to use here (names are case sensitive).
 %  The current version of EDOLAB includes the following benchmark generators: 'MPB' , 'GDBG' , 'GMPB' , 'FPs'
 %% Get the algorithm and benchmark lists
 AlgorithmsFloder = dir([projectPath,'\Algorithm']);
@@ -63,15 +63,15 @@ elseif(~ismember(BenchmarkName,BenchmarksList))
     error("No Such Benchmark in EDOLAB");
 end
 %% ********Benchmark parameters and Run number********
-PeakNumber                     = 10;  %The default value is 10
+PeakNumber                     = 10;  %Number of promising regions--the default value is 10
 ChangeFrequency                = 5000;%The default value is 5000
 Dimension                      = 5;   %The default value is 5. It must be set to 2 for using Education module
 ShiftSeverity                  = 1;   %The default value is 1
-EnvironmentNumber              = 10;  %The default value is 100
+EnvironmentNumber              = 100;  %The default value is 100
 RunNumber                      = 3;   %It should be set to 31 in Experimentation module, and must be set to 2 for using Education module.
 %% ********Figures and Outputs********
 GeneratingExcelFile            = 1;   %Set to 1 (only for using the Experimentation module) to save the output statistics in an Excel file (in the Results folder), 0 otherwise. 
-OutputFig                      = 1;   %Set to 1 (only for using the Experimentation module) to draw offline error over time and current error plot, 0 otherwise.
+OutputFig                      = 0;   %Set to 1 (only for using the Experimentation module) to draw offline error over time and current error plot, 0 otherwise.
 VisualizationOverOptimization  = 0;   %Set to 1 for using the Education module, 0 otherwise. This must be set to 0 if the user intends to use the Experimentation module.
 %If VisualizationOverOptimization is set to 1, it means that EDOLAB enters its Education module. 
 %To enter the Education module, RunNumber must be set to 1, Dimension must be set to 2, and no excel file or output figure is generated. 
