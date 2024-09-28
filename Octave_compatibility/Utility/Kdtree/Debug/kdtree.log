@@ -1,0 +1,16 @@
+﻿  ConstructKDTree.cpp
+E:\kdtree\kdtree\kdtree_space.h(619,23): warning C4018: “<”: 有符号/无符号不匹配
+E:\kdtree\kdtree\kdtree_space.h(603): message : 在编译 类 模板 成员函数“void KDTreeSpace::PartitioningKDTree<double,size_t>::midSplit(IndexType *,IndexType,IndexType &,int &,ElementType &,const KDTreeSpace::PartitioningKDTree<ElementType,IndexType>::NamedType &,int)”时
+          with
+          [
+              IndexType=size_t,
+              ElementType=double
+          ]
+E:\kdtree\kdtree\kdtree_space.h(532): message : 查看对正在编译的函数 模板 实例化“void KDTreeSpace::PartitioningKDTree<double,size_t>::midSplit(IndexType *,IndexType,IndexType &,int &,ElementType &,const KDTreeSpace::PartitioningKDTree<ElementType,IndexType>::NamedType &,int)”的引用
+          with
+          [
+              IndexType=size_t,
+              ElementType=double
+          ]
+E:\kdtree\kdtree\ConstructKDTree.cpp(7): message : 查看对正在编译的 类 模板 实例化“KDTreeSpace::PartitioningKDTree<double,size_t>”的引用
+  kdtree.vcxproj -> E:\kdtree\Debug\kdtree.exe
