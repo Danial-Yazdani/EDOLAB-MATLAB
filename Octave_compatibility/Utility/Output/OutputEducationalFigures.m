@@ -1,4 +1,15 @@
-%This is how the real-time figures are drawn
+% ------------
+% Notification:
+% ------------
+%
+% This file has been modified to ensure compatibility with Octave.
+% These modifications include adjustments to MATLAB-specific functions 
+% and features, allowing the code to run in the Octave environment.
+% Users who wish to run EDOLAB in Octave should replace the original file 
+% with this modified version.
+%
+
+%% Real-time figure generation
 function OutputEducationalFigures(Iteration,PeakNumber,VisualizationInfo,CurrentError,Problem)
     for ij =1 : Iteration
         ax1 = subplot(1,2,1);

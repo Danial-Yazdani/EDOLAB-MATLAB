@@ -1,9 +1,9 @@
 %*********************************EDOLAB ver 1.00*********************************
 %
-%Authors: Mai Peng and Danial Yazdani
+%Authors: Mai Peng and Danial Yazdani and Delaram Yazdani
 % e-mails: pengmai1998 AT gmail DOT com
 %          danial DOT yazdani AT gmail DOT com
-%Last Edited: September 22, 2024
+%Last Edited: September 28, 2024
 %
 % ------------
 % Reference:
@@ -17,7 +17,11 @@
 % Notification:
 % ------------
 %
-%  This function is used to run EDOLAB without GUI
+% This file has been modified to ensure compatibility with Octave.
+% These modifications include adjustments to MATLAB-specific functions 
+% and features, allowing the code to run in the Octave environment.
+% Users who wish to run EDOLAB in Octave should replace the original file 
+% with this modified version.
 %
 % --------
 % License:

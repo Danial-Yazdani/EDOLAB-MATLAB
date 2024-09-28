@@ -1,3 +1,14 @@
+% ------------
+% Notification:
+% ------------
+%
+% This file has been modified to ensure compatibility with Octave.
+% These modifications include adjustments to MATLAB-specific functions 
+% and features, allowing the code to run in the Octave environment.
+% Users who wish to run EDOLAB in Octave should replace the original file 
+% with this modified version.
+%
+
 %% Generating figure
 function [FigureCurrentError] = OutputPlot(CurrentError,RunNumber,E_o,E_bbc,AlgorithmName)
     disp('Generating figure: please wait for calculating the offline error over time...');

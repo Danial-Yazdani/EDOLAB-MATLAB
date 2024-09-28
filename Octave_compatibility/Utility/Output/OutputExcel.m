@@ -1,3 +1,14 @@
+% ------------
+% Notification:
+% ------------
+%
+% This file has been modified to ensure compatibility with Octave.
+% These modifications include adjustments to MATLAB-specific functions 
+% and features, allowing the code to run in the Octave environment.
+% Users who wish to run EDOLAB in Octave should replace the original file 
+% with this modified version.
+%
+
 %% Output to Excel
 function OutputExcel(AlgorithmName,BenchmarkName,ChangeFrequency,Dimension,PeakNumber,ShiftSeverity,RunNumber,EnvironmentNumber,E_o,E_bbc,T_r,pathout)
     disp('Outputing to Excel: please wait for a while...');
