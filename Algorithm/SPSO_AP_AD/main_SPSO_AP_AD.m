@@ -1,7 +1,7 @@
 %********************************SPSO_AP_AD*****************************************************
 %Author: Delaram Yazdani
 %E-mail: delaram DOT yazdani AT yahoo DOT com
-%Last Edited: July 12, 2023
+%Last Edited: September 29, 2024
 %
 % ------------
 % Reference:
@@ -23,13 +23,20 @@ BestErrorBeforeChange = NaN(1,RunNumber);
 OfflineError = NaN(1,RunNumber);
 CurrentError = NaN (RunNumber,ChangeFrequency*EnvironmentNumber);
 Runtime = NaN(1,RunNumber);
+
+% The above lines define the parameters used for gathering data for outputs including 
+% performance indicators, plots, and runtime. 
+% These are common across all algorithms implemented in EDOLAB and facilitate tracking 
+% key metrics throughout the optimization process.
+
 for RunCounter=1 : RunNumber
     if VisualizationOverOptimization ~= 1
         rng(RunCounter);%This random seed setting is used to initialize the Problem
     end
     Problem = BenchmarkGenerator(PeakNumber,ChangeFrequency,Dimension,ShiftSeverity,EnvironmentNumber,BenchmarkName);
-    tic;
     rng('shuffle');%Set a random seed for the optimizer
+    tic; % Start runtime tracking for the current run
+    % The lines above (including the start of the loop) are common between the main files of all EDOAs.
     %% Initialiing Optimizer
     clear Optimizer Species;
     Optimizer.SwarmMember = 5;%Species size
@@ -109,14 +116,18 @@ for RunCounter=1 : RunNumber
             break;
         end
     end
-    elapsedTime = toc;
-    %% Performance indicator calculation
-    BestErrorBeforeChange(1,RunCounter) = mean(Problem.Ebbc);
-    OfflineError(1,RunCounter) = mean(Problem.CurrentError);
-    CurrentError(RunCounter,:) = Problem.CurrentError;
-    Runtime(1,RunCounter) = elapsedTime;
+    %% Runtime, Performance Indicator, and Plot Data Gathering
+    % This section is common across all EDOAs and must be executed after each run to gather runtime, performance indicators, and plot data.
+    elapsedTime = toc;  % Stop the timer for the current run and record runtime
+    Runtime(1,RunCounter) = elapsedTime;  % Store the runtime for the current run
+    BestErrorBeforeChange(1,RunCounter) = mean(Problem.Ebbc);  % Calculate and store average best error before each environmental change
+    OfflineError(1,RunCounter) = mean(Problem.CurrentError);  % Calculate and store the offline error across all function evaluations
+    CurrentError(RunCounter,:) = Problem.CurrentError;  % Record current error values for plotting convergence behavior over time
 end
-%% Output preparation
+%% Output Preparation: Common Across All EDOAs
+% This section gathers and summarizes the results of the experiment, including
+% performance indicators (E_bbc for Best Error Before Change, E_o for Offline Error),
+% runtime statistics (T_r), and any visualization data if enabled.
 E_bbc.mean = mean(BestErrorBeforeChange);
 E_bbc.median = median(BestErrorBeforeChange);
 E_bbc.StdErr = std(BestErrorBeforeChange)/sqrt(RunNumber);
