@@ -4,27 +4,28 @@
 
 **Git repository:** [Danial-Yazdani/EDOLAB-MATLAB (github.com)](https://github.com/Danial-Yazdani/EDOLAB-MATLAB)
 
-**The current version is `v1.10`**
+**The current version is `v1.20`**
 
 ## Author List
-* **MAI PENG**, pengmai@cug.edu.cn, School of Automation, China University of Geosciences,Wuhan, Hubei Key Laboratory of Advanced Control and Intelligent Automation for Complex Systems, and Engineering Research Center of Intelligent Technology for Geo-Exploration, Ministry of
-Education, China, 430074; 
+* **MAI PENG**, pengmai@cug.edu.cn, School of Automation, China University of Geosciences,Wuhan, Hubei Key Laboratory of Advanced Control and Intelligent Automation for Complex Systems, and Engineering Research Center of Intelligent Technology for Geo-Exploration, Ministry of Education, China, 430074; 
 
 * **ZENENG SHE**, 20s151103@stu.hit.edu.cn, School of Computer Science and Technology, Harbin Institute of Technology, Shenzhen, China, 518055; 
 
 * **DELARAM YAZDANI**, delaram.yazdani@yahoo.com, Department of Computer Engineering, Mashhad Branch, Azad University, Mashhad, Iran; 
 
-* **DANIAL YAZDANI**, danial.yazdani@gmail.com, Faculty of Engineering & Information Technology, University of Technology Sydney, Ultimo, Australia, 2007; 
+* **DANIAL YAZDANI**, danial.yazdani@gmail.com, Faculty of Engineering & Information Technology, University of Technology Sydney, Ultimo, Australia, 2007;
 
 * **WENJIAN LUO**, luowenjian@hit.edu.cn, Guangdong Provincial Key Laboratory of Novel Security Intelligence Technologies, School of Computer Science and Technology, Harbin Institute of Technology and Peng Cheng Laboratory, Shenzhen, China, 518055; 
 
-* **CHANGHE LI**, changhe.lw@gmail.com, School of Automation, China University of Geosciences, Wuhan, Hubei Key Laboratory of Advanced Control and Intelligent Automation for Complex Systems, and Engineering Research Center of Intelligent Technology for Geo-Exploration, Ministry of Education, China, 430074; 
+* **CHANGHE LI**, School of Artificial Intelligence, Anhui University of Sciences & Technology, Hefei, China, 230000; 
 
 * **JUERGEN BRANKE**, Juergen.Branke@wbs.ac.uk, Operational Research and Management Sciences Group in Warwick Business school, University of Warwick, Coventry, United Kingdom, CV4 7AL; 
 
 * **TRUNG THANH NGUYEN**, T.T.Nguyen@ljmu.ac.uk, The Liverpool Logistics, Offshore and Marine (LOOM) Research Institute, Faculty of Engineering and Technology, Liverpool John Moores University, Liverpool, United Kingdom, L2 2ER; 
 
 * **AMIR H. GANDOMI**, Gandomi@uts.edu.au, Faculty of Engineering & Information Technology, University of Technology Sydney, Ultimo, Australia, 2007 and University Research and Innovation Center (EKIK), Obuda University, Budapest, Hungary, 1034; 
+
+* **SHENGXIANG YANG**, syang@dmu.ac.uk, enter for Computational Intelligence (CCI), School of Computer Science and Informatics, De Montfort University, Leicester, United Kingdom, LE1 9BH; 
 
 * **YAOCHU JIN**, yaochu.jin@uni-bielefeld.de, Faculty of Technology, Bielefeld University,
 Bielefeld, Germany, 33615; 
