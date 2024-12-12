@@ -17,7 +17,7 @@
 
 * **WENJIAN LUO**, luowenjian@hit.edu.cn, Guangdong Provincial Key Laboratory of Novel Security Intelligence Technologies, School of Computer Science and Technology, Harbin Institute of Technology and Peng Cheng Laboratory, Shenzhen, China, 518055; 
 
-* **CHANGHE LI**, School of Artificial Intelligence, Anhui University of Sciences & Technology, Hefei, China, 230000; 
+* **CHANGHE LI**, School of Artificial Intelligence, Anhui University of Science & Technology, Hefei, China, 230000; 
 
 * **JUERGEN BRANKE**, Juergen.Branke@wbs.ac.uk, Operational Research and Management Sciences Group in Warwick Business school, University of Warwick, Coventry, United Kingdom, CV4 7AL; 
 
@@ -25,7 +25,7 @@
 
 * **AMIR H. GANDOMI**, Gandomi@uts.edu.au, Faculty of Engineering & Information Technology, University of Technology Sydney, Ultimo, Australia, 2007 and University Research and Innovation Center (EKIK), Obuda University, Budapest, Hungary, 1034; 
 
-* **SHENGXIANG YANG**, syang@dmu.ac.uk, enter for Computational Intelligence (CCI), School of Computer Science and Informatics, De Montfort University, Leicester, United Kingdom, LE1 9BH; 
+* **SHENGXIANG YANG**, syang@dmu.ac.uk, Institute of Artificial Intelligence (IAI), School of Computer Science and Informatics, De Montfort University, Leicester, United Kingdom, LE1 9BH; 
 
 * **YAOCHU JIN**, yaochu.jin@uni-bielefeld.de, Faculty of Technology, Bielefeld University,
 Bielefeld, Germany, 33615; 
