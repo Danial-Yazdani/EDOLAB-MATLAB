@@ -4,7 +4,7 @@
 
 **Git repository:** [Danial-Yazdani/EDOLAB-MATLAB (github.com)](https://github.com/Danial-Yazdani/EDOLAB-MATLAB)
 
-**The current version is `v1.20`**
+**The current version is `v1.30`**
 
 ## Author List
 * **MAI PENG**, pengmai@cug.edu.cn, School of Automation, China University of Geosciences,Wuhan, Hubei Key Laboratory of Advanced Control and Intelligent Automation for Complex Systems, and Engineering Research Center of Intelligent Technology for Geo-Exploration, Ministry of Education, China, 430074; 

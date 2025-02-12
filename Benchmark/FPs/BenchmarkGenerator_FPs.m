@@ -1,7 +1,7 @@
 %**************Free Peaks Benchmark (FPs)******************************************************************************
 %
 %Author: Mai Peng
-%Last Edited: November 3, 2022
+%Last Edited: January 20, 2025
 % e-mail: pengmai1998 AT gmail dot com
 %
 % ------------
@@ -57,14 +57,16 @@ function Problem = BenchmarkGenerator_FPs(PeakNumber,ChangeFrequency,Dimension,S
    Problem.SubSpaceLinkage     = NaN(PeakNumber,PeakNumber);
    Problem.PeakVisibility      = ones(Problem.EnvironmentNumber,Problem.PeakNumber);
    Problem.FunctionSelect(1,:) = ceil(Problem.MinFunctionID-1 + (Problem.MaxFunctionID-Problem.MinFunctionID+1)*rand(Problem.PeakNumber,1));
+   Problem.SubspaceWeight = zeros(Problem.EnvironmentNumber, Problem.PeakNumber); % Weight field to control each subspace size of a peak
    %************************************The parameters can be configured by users************************************
    Problem.Lambda              = 1;    %To determine the correlation between the direction of the current movement and the previous movement
                                        %Set 0 to random move, set 1 to fixed direction move
    Problem.SpaceChange         = 0;    %Set 1 to change subspace every environment.
-   Problem.FunctionChange      = 1;    %Set 1 to change subspaces' functions every environment.
+   Problem.FunctionChange      = 0;    %Set 1 to change subspaces' functions every environment.
    %*****************************************************************************************************************
    
-   [SubSpace, SubSpaceLinkage] = KDTree_Partition(PeakNumber,repmat([Problem.MinCoordinate,Problem.MaxCoordinate],Dimension,1));
+   Problem.SubspaceWeight(1,:) = ones(PeakNumber, 1) / PeakNumber;
+   [SubSpace, SubSpaceLinkage] = KDTree_Partition(PeakNumber, repmat([Problem.MinCoordinate, Problem.MaxCoordinate], Dimension, 1), Problem.SubspaceWeight(1,:));
    for i = 1:PeakNumber
        Problem.SubSpace(:,:,i,1) = zeros(Dimension,2);
    end
@@ -100,7 +102,8 @@ function Problem = BenchmarkGenerator_FPs(PeakNumber,ChangeFrequency,Dimension,S
    for ii=2 : Problem.EnvironmentNumber
        %Re-Set SubSpace
        if(Problem.SpaceChange == 1)
-           [SubSpace, SubSpaceLinkage] = KDTree_Partition(PeakNumber,repmat([Problem.MinCoordinate,Problem.MaxCoordinate],Dimension,1));
+           Problem.SubspaceWeight(1,:) = (ones(1, PeakNumber) / PeakNumber + 0.01 * (rand(1, PeakNumber) - 0.5)) / sum(ones(1, PeakNumber) / PeakNumber + 0.01 * (rand(1, PeakNumber) - 0.5));
+           [SubSpace, SubSpaceLinkage] = KDTree_Partition(PeakNumber, repmat([Problem.MinCoordinate, Problem.MaxCoordinate], Dimension, 1), Problem.SubspaceWeight(1,:));           
            for i = 1:PeakNumber
                Problem.SubSpace(:,:,i,ii) = zeros(Dimension,2);
            end
@@ -121,8 +124,6 @@ function Problem = BenchmarkGenerator_FPs(PeakNumber,ChangeFrequency,Dimension,S
            end
            %Re-set Height
            Problem.PeaksHeight(ii,:) = Problem.MinHeight + (Problem.MaxHeight-Problem.MinHeight)*rand(Problem.PeakNumber,1);
-           %Re-Set Function
-           Problem.FunctionSelect(ii,:) = ceil(Problem.MinFunctionID-1 + (Problem.MaxFunctionID-Problem.MinFunctionID+1)*rand(Problem.PeakNumber,1));
        elseif(Problem.SpaceChange == 0)
            Problem.SubSpace(:,:,:,ii) = Problem.SubSpace(:,:,:,ii-1);
            %Position Change
@@ -156,12 +157,13 @@ function Problem = BenchmarkGenerator_FPs(PeakNumber,ChangeFrequency,Dimension,S
                   Problem.PeaksHeight(ii,kk) = Problem.PeaksHeight(ii,kk) - abs(Problem.HeightSeverity*randn());
                end
            end
-           %Function Change
-           if(Problem.FunctionChange == 0)
-               Problem.FunctionSelect(ii,:) = Problem.FunctionSelect(ii-1,:);
-           elseif(Problem.FunctionChange == 1)
-               Problem.FunctionSelect(ii,:) = ceil(Problem.MinFunctionID-1 + (Problem.MaxFunctionID-Problem.MinFunctionID+1)*rand(Problem.PeakNumber,1));
-           end
+       end
+      
+       if (Problem.FunctionChange == 1)
+           %Re-Set Function
+           Problem.FunctionSelect(ii,:) = ceil(Problem.MinFunctionID-1 + (Problem.MaxFunctionID-Problem.MinFunctionID+1)*rand(Problem.PeakNumber,1));
+       else
+           Problem.FunctionSelect(ii,:) = Problem.FunctionSelect(ii-1,:);
        end
        Problem.PeaksPositionMap(:,:,ii) = Transfer(Problem.PeaksPosition(:,:,ii),Problem,ii);
        

@@ -74,6 +74,8 @@ function y = SelectFitnessFunc(x,Peak_ID,Function_ID,Problem,EnvironmentNum,lowe
             y = s7(x,Problem.PeaksHeight(EnvironmentNum,Peak_ID),Problem.PeaksPositionMap(Peak_ID,:,EnvironmentNum),repmat([Problem.l_sv,Problem.u_sv],Problem.Dimension,1),50);
         case 8
             y = s8(x,Problem.PeaksHeight(EnvironmentNum,Peak_ID),Problem.PeaksPositionMap(Peak_ID,:,EnvironmentNum),repmat([Problem.l_sv,Problem.u_sv],Problem.Dimension,1),50,3,5.5);
+        case 9
+            y = s9(x,Problem.PeaksHeight(EnvironmentNum,Peak_ID),Problem.PeaksPositionMap(Peak_ID,:,EnvironmentNum),repmat([Problem.l_sv,Problem.u_sv],Problem.Dimension,1));
     end
 %map the lowest value to the same level
     if(~isnan(Problem.SubSpaceLowest(EnvironmentNum,Peak_ID)))
@@ -199,4 +201,17 @@ if(dx_X <= r)
 elseif(dx_X > r)
     Y = Height - n * m * sqrt(r+1) - dx_X + r;
 end
+end
+
+function Y = s9(X, Height, Position, subspace)
+    q = 1;
+    for i = 1:size(X,2)
+        if X(i) >= Position(i)
+            q = q * (1-(X(i)-Position(i))/(subspace(i,2)-Position(i)));
+        elseif X(i) < Position(i)
+            q = q * (1-(Position(i)-X(i))/(Position(i)-subspace(i,1)));
+        end
+    end
+    dx_X = (1 - q) * sqrt(sum((subspace(:,2) - subspace(:,1)).^2));
+    Y = Height*exp(-dx_X^2/ (2* (200/5)^2));
 end

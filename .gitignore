@@ -1,4 +1,5 @@
 *.asv
 *.m~
 *.mlx~
-/Results/*
+User_defined/
+Results/*

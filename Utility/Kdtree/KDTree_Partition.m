@@ -1,12 +1,20 @@
-%% this function is used to partition the space by k-d tree.
-%  It is call by mexFunction between matlab and C++
-%   the 1st input is the number of partitions
-%   the 2nd input is the boundary of the domain, [l u;l u;l u...]
-%   the 1st output is the partitioned subspaces
-%   the 2nd output is the neighborhood relationships of these subspaces
-function [a,b]=KDTree_Partition(num,boundary)
-    [x,y]=ConstructKDTree(num,boundary);
-    a=x;
-    b=y;
-end
+function [a,b]=KDTree_Partition(num, boundary, weights)
+    % This function partitions a space into num subspaces using KDTree.
+    % Inputs:
+    %   - num: Number of subspaces (int).
+    %   - boundary: The boundary of each subspace, specified as an m x 2 matrix, 
+    %     where m is the dimensionality of the space.
+    %   - weights: A vector specifying the volumetric proportions for each subspace. 
+    %     The length of this vector must be equal to num.
+    %
+    % Outputs:
+    %   - a: Boundaries of the partitioned subspaces.
+    %   - b: Adjacency matrix indicating whether two subspaces are adjacent.
 
+    % Call ConstructKDTree with the weights parameter
+    [x, y] = ConstructKDTree(num, boundary, weights);
+    
+    % Assign the outputs to a and b
+    a = x;  % Subspace boundaries
+    b = y;  % Adjacency matrix
+end
