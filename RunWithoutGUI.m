@@ -33,13 +33,13 @@ nowPath = mfilename('fullpath');
 projectPath = nowPath(1:max(strfind(nowPath,'\'))-1);
 addpath(genpath(projectPath));
 %% ********Selecting Algorithm & Benchmark********
-AlgorithmName = 'DPCPSO';    %Please input the name of algorithm (EADO) you want to run here (names are case sensitive).
+AlgorithmName = 'APCPSO';    %Please input the name of algorithm (EADO) you want to run here (names are case sensitive).
 %  The list of algorithms (EADOs) and some of their details can be found in Table 1 of the EDOLAB's paper.
 %  The current version of EDOLAB includes the following algorithms (EADOs):
 %  'ACFPSO' , 'AMPDE' , 'AMPPSO' , 'AmQSO' , 'AMSO' , 'CDE' , 'CESO', 'CPSO' , 'CPSOR' 
 %  'DSPSO' , 'DynDE' , 'DynPopDE' , 'FTMPSO' , 'HmSO' ,  'IDSPSO' , 'ImQSO' , 'mCMAES'
 %  'mDE' , 'mjDE' , 'mPSO' , 'mQSO' , 'psfNBC' , 'RPSO' , 'SPSO_AP_AD' ,
-%  'TMIPSO', 'DPCPSO'
+%  'TMIPSO', 'DPCPSO', 'APCPSO'
 BenchmarkName = 'GMPB';     %Please input the name of benchmark you want to use here (names are case sensitive).
 %  The current version of EDOLAB includes the following benchmark generators: 'MPB' , 'GDBG' , 'GMPB' , 'FPs'
 %% Get the algorithm and benchmark lists
@@ -71,8 +71,8 @@ EnvironmentNumber              = 100;  %The default value is 100
 RunNumber                      = 31;   %It should be set to 31 in Experimentation module, and must be set to 2 for using Education module.
 %% ********Figures and Outputs********
 GeneratingExcelFile            = 1;   %Set to 1 (only for using the Experimentation module) to save the output statistics in an Excel file (in the Results folder), 0 otherwise. 
-OutputFig                      = 0;   %Set to 1 (only for using the Experimentation module) to draw offline error over time and current error plot, 0 otherwise.
-VisualizationOverOptimization  = 1;   %Set to 1 for using the Education module, 0 otherwise. This must be set to 0 if the user intends to use the Experimentation module.
+OutputFig                      = 1;   %Set to 1 (only for using the Experimentation module) to draw offline error over time and current error plot, 0 otherwise.
+VisualizationOverOptimization  = 0;   %Set to 1 for using the Education module, 0 otherwise. This must be set to 0 if the user intends to use the Experimentation module.
 %If VisualizationOverOptimization is set to 1, it means that EDOLAB enters its Education module. 
 %To enter the Education module, RunNumber must be set to 1, Dimension must be set to 2, and no excel file or output figure is generated. 
 %If the user does not intend to use the Education module, she or he must set VisualizationOverOptimization to 0. 
@@ -82,7 +82,7 @@ if VisualizationOverOptimization==1%Forcing the right values for the following p
        warning('By setting VisualizationOverOptimization to 1, you have chosen to use the Education module of EDOLAB; therefore, run number and dimension are set to 1 and 2, respectively. The output figure and Excel file are disabled.');      
     end
     Dimension                  = 2;   
-    RunNumber                  = 1;   
+    RunNumber                  = 1;
     GeneratingExcelFile        = 0;   
     OutputFig                  = 0;
 end
