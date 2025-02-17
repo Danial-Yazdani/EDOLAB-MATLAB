@@ -1,25 +1,16 @@
-%********************************DPCPSO*****************************************************
+%********************************APCPSO*****************************************************
 %Author: Mai Peng
 %E-mail: pengmai1998 AT gmail DOT com
-%Last Edited: February 9, 2025
+%Last Edited: February 17, 2025
 %
 % ------------
 % Reference:
 % ------------
 %
-%  Li, Fei, et al. 
-%       "A fast density peak clustering based particle swarm optimizer for dynamic optimization." 
-%       Expert Systems with Applications 236 (2024): 121254.
+%       "Liu, Yuanchao, et al. 
+%           "An affinity propagation clustering based particle swarm optimizer for dynamic optimization." 
+%               Knowledge-Based Systems 195 (2020): 105711.
 %
-% ------------
-% Description:
-% ------------
-%   This code implements a Dynamic Optimization algorithm called DPCPSO,
-%   which uses a fast density peak clustering method to partition the swarm
-%   into sub-populations. It then applies Particle Swarm Optimization (PSO)
-%   for local search, along with stagnation detection, exclusion scheme,
-%   convergence detection, and change reaction (optimal particle calibration
-%   and diversity maintenance) to efficiently solve dynamic optimization problems.
 %
 % --------
 % License:
@@ -29,7 +20,7 @@
 % e-mail: danial DOT yazdani AT gmail DOT com
 % Copyright notice: (c) 2023 Danial Yazdani
 %*****************************************************************************************
-function [Problem,E_bbc,E_o,T_r,CurrentError,VisualizationInfo,Iteration] = main_DPCPSO(VisualizationOverOptimization,PeakNumber,ChangeFrequency,Dimension,ShiftSeverity,EnvironmentNumber,RunNumber,BenchmarkName)
+function [Problem,E_bbc,E_o,T_r,CurrentError,VisualizationInfo,Iteration] = main_APCPSO(VisualizationOverOptimization,PeakNumber,ChangeFrequency,Dimension,ShiftSeverity,EnvironmentNumber,RunNumber,BenchmarkName)
 
 BestErrorBeforeChange = NaN(1,RunNumber);
 OfflineError = NaN(1,RunNumber);
@@ -44,7 +35,7 @@ for RunCounter = 1 : RunNumber
     rng('shuffle'); % Set a random seed for the optimizer
     tic;  % Start runtime tracking
     
-    %% Initialize DPCPSO Optimizer Parameters
+    %% Initialize APCPSO Optimizer Parameters
     clear Optimizer;
     Optimizer.Dimension = Problem.Dimension;
     Optimizer.PopulationSize = 100;  % Number of particles per sub-population
@@ -55,15 +46,15 @@ for RunCounter = 1 : RunNumber
     Optimizer.c1 = 1.7;
     Optimizer.c2 = 1.7;
 
-    Optimizer.omega_max = 0.5;    % Upper bound for inertia weight (ω_max)
-    Optimizer.omega_min = 0.2;    % Lower bound for inertia weight (ω_min)
+    Optimizer.omega_max = 0.6;    % Upper bound for inertia weight (ω_max)
+    Optimizer.omega_min = 0.3;    % Lower bound for inertia weight (ω_min)
     Optimizer.MaxSubPopIterations = 50; % Maximum iterations for sub-population (S_i)
     
     % Stagnation detection parameter
     Optimizer.StagnationThreshold = 15;
     
     % Generate initial sub-populations via fast density peak clustering
-    [Optimizer.pop, Problem] = SubPopulationGenerator_DPCPSO(Optimizer.Dimension,Optimizer.MinCoordinate,Optimizer.MaxCoordinate,Optimizer.PopulationSize,Problem);
+    [Optimizer.pop, Problem] = SubPopulationGenerator_APCPSO(Optimizer.Dimension,Optimizer.MinCoordinate,Optimizer.MaxCoordinate,Optimizer.PopulationSize,Problem);
 
 
     % Exclusion radius (used for preventing multiple sub-populations from 
@@ -73,7 +64,6 @@ for RunCounter = 1 : RunNumber
     
     % Convergence detection threshold (set equal to the exclusion radius for simplicity)
     Optimizer.ConvergenceThreshold = 0.1;
-    Optimizer.QuantumNumber = 5;
     
     VisualizationFlag = 0;
     Iteration = 0;
@@ -116,13 +106,13 @@ for RunCounter = 1 : RunNumber
             VisualizationInfo{Iteration}.FE = Problem.FE;
         end
         
-        %% Optimization Step: Call the DPCPSO Iterative Components
-        [Optimizer,Problem] = IterativeComponents_DPCPSO(Optimizer,Problem);
+        %% Optimization Step: Call the APCPSO Iterative Components
+        [Optimizer,Problem] = IterativeComponents_APCPSO(Optimizer, Problem);
         
         %% Change Reaction: Environment Change Detected
         if Problem.RecentChange == 1
             Problem.RecentChange = 0;
-            [Optimizer,Problem] = ChangeReaction_DPCPSO(Optimizer,Problem);
+            [Optimizer,Problem] = ChangeReaction_APCPSO(Optimizer,Problem);
             VisualizationFlag = 0;
             clc; disp(['Run number: ',num2str(RunCounter),'   Environment number: ',num2str(Problem.Environmentcounter)]);
         end
