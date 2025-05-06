@@ -1,7 +1,7 @@
 %**************Generalized Dynamic Benchmark Generator (GDBG)******************************************************************************
 %
 %Author: Mai Peng
-%Last Edited: May 11, 2024
+%Last Edited: May 6, 2025
 % e-mail: pengmai1998 AT gmail dot com
 %
 % ------------
@@ -20,15 +20,16 @@
 % e-mail: danial DOT yazdani AT gmail DOT com
 % Copyright notice: (c) 2024 Danial Yazdani
 %*************************************************************************************************************************************
-function Problem = BenchmarkGenerator_GDBG(PeakNumber,ChangeFrequency,Dimension,ShiftSeverity,EnvironmentNumber,BenchmarkName)
+function Problem = BenchmarkGenerator_GDBG(BenchmarkName, ConfigurableParameters)
     disp('GDBG Running')
     Problem                     = [];
+    % Set Configurable Parameters
+    fieldNames = fieldnames(ConfigurableParameters);
+    for i = 1:length(fieldNames)
+        Problem.(fieldNames{i}) = ConfigurableParameters.(fieldNames{i}).value;
+    end
+    % Set Other Parameters
     Problem.FE                  = 0;
-    Problem.PeakNumber          = PeakNumber;
-    Problem.ChangeFrequency     = ChangeFrequency;
-    Problem.Dimension           = Dimension;
-    Problem.ShiftSeverity       = ShiftSeverity;
-    Problem.EnvironmentNumber   = EnvironmentNumber;
     Problem.Environmentcounter  = 1;
     Problem.RecentChange        = 0;
     Problem.MaxEvals            = Problem.ChangeFrequency * Problem.EnvironmentNumber;
@@ -40,8 +41,6 @@ function Problem = BenchmarkGenerator_GDBG(PeakNumber,ChangeFrequency,Dimension,
     Problem.MaxHeight           = 70;
     Problem.MinWidth            = 1;
     Problem.MaxWidth            = 12;
-    Problem.HeightSeverity      = 7;
-    Problem.WidthSeverity       = 1;
     Problem.PeakVisibility      = zeros(Problem.EnvironmentNumber,Problem.PeakNumber);
     Problem.OptimumValue        = NaN(Problem.EnvironmentNumber,1);
     Problem.PeaksHeight         = NaN(Problem.EnvironmentNumber,Problem.PeakNumber);
@@ -56,6 +55,27 @@ function Problem = BenchmarkGenerator_GDBG(PeakNumber,ChangeFrequency,Dimension,
     Problem.FunctionSelect(1,:) = ceil(Problem.MinFunctionID-1 + (Problem.MaxFunctionID-Problem.MinFunctionID+1)*rand(Problem.PeakNumber,1));
     Problem.M = eye(Problem.Dimension); %Rotation Matrixs
     Problem.Theta = 2*pi*rand();
+  
+    % Set user defined indicators
+    Problem.Indicators = struct();
+    jsonText = fileread('Indicators/Indicators.json');
+    jsonText = regexprep(jsonText, '//[^\n\r]*', '');
+    IndicatorDefs = jsondecode(jsonText);
+    indicatorNames = fieldnames(IndicatorDefs);
+    for i = 1 : numel(indicatorNames)
+       name = indicatorNames{i};
+       Problem.Indicators.(name).type = IndicatorDefs.(name).type;
+       switch Problem.Indicators.(name).type
+           case 'FE based'
+               Problem.Indicators.(name).trend = NaN(1,Problem.MaxEvals);
+           case 'Environment based'
+               Problem.Indicators.(name).trend = NaN(1,Problem.EnvironmentNumber);
+           case 'None'
+               Problem.Indicators.(name).final = NaN;
+           otherwise
+               error('Unknown indicator type "%s" for %s', Problem.Indicators.(name).type, name);
+       end
+    end
     
     %Generate rotation matrixs
     l = 2 * floor(1 + (Problem.Dimension/2 - 1) * rand());

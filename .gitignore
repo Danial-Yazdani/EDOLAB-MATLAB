@@ -2,4 +2,7 @@
 *.m~
 *.mlx~
 User_defined/
-Results/*
+Results/Batch Records/*
+Results/Statistical Analysis/*
+Results/Task Detail Results/*
+.idea/

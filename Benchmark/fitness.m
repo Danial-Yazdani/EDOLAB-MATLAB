@@ -1,4 +1,4 @@
-%*********************************EDOLAB ver 1.00*********************************
+%*********************************EDOLAB ver 2.00*********************************
 %
 %Authors: Danial Yazdani and Mai Peng
 % e-mails: danial DOT yazdani AT gmail DOT com
@@ -59,5 +59,24 @@ function [result,Problem] = fitness(X,Problem)
            Problem.Environmentcounter = Problem.Environmentcounter+1;
            Problem.RecentChange = 1;
        end
+
+       % Calculate your user-defined indicators here
+       % 
+       % Notes:
+       % - If the indicator is of type 'FE based' or 'Environment based', 
+       %   you must properly maintain the 'trend' field.
+       %   Make sure the 'trend' array has a length consistent with the number of FEs or environments.
+       % - If the indicator is of type 'None', 
+       %   you must provide a scalar value for the 'final' field at the end of the evaluation.
+       
+       % Example:
+       
+       % For indicators of type 'FE based', update the indicator's trend at each fitness evaluation.
+       Problem.Indicators.E_o.trend(Problem.FE) = Problem.CurrentError(Problem.FE);
+       % For indicators of type 'Environment based', update the indicator's trend when the environment changes.
+       if rem(Problem.FE, Problem.ChangeFrequency) == (Problem.ChangeFrequency - 1)
+           Problem.Indicators.E_bbc.trend(Problem.Environmentcounter) = Problem.Ebbc(Problem.Environmentcounter);
+       end
+       % For indicators of type 'None', provide the final value of the indicator after the last evaluation.
    end
 end

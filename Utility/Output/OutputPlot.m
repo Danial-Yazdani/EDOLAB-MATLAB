@@ -1,6 +1,7 @@
 %% Generating figure
 function [FigureCurrentError] = OutputPlot(CurrentError,RunNumber,E_o,E_bbc,AlgorithmName)
     disp('Generating figure: please wait for calculating the offline error over time...');
+    figure;
     if RunNumber>1
         FigureCurrentError = mean(CurrentError);
     else
@@ -8,10 +9,8 @@ function [FigureCurrentError] = OutputPlot(CurrentError,RunNumber,E_o,E_bbc,Algo
     end
     semilogy(FigureCurrentError,'r','DisplayName','Current Error');
     hold on;
-    FigureOfflineError = NaN(size(FigureCurrentError));
-    parfor ii=1 : length(FigureCurrentError)
-        FigureOfflineError(ii)= mean(FigureCurrentError(1:ii));
-    end
+    cumsumError = cumsum(FigureCurrentError);
+    FigureOfflineError = cumsumError ./ (1:length(FigureCurrentError));
     semilogy(FigureOfflineError,'b','LineWidth',2,'DisplayName','Offline Error');
     xlabel('Fitness Evaluation');
     ylabel('Error');

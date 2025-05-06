@@ -1,7 +1,7 @@
 %**************Free Peaks Benchmark (FPs)******************************************************************************
 %
 %Author: Mai Peng
-%Last Edited: January 20, 2025
+%Last Edited: May 6, 2025
 % e-mail: pengmai1998 AT gmail dot com
 %
 % ------------
@@ -20,15 +20,16 @@
 % e-mail: danial DOT yazdani AT gmail DOT com
 % Copyright notice: (c) 2023 Danial Yazdani
 %*************************************************************************************************************************************
-function Problem = BenchmarkGenerator_FPs(PeakNumber,ChangeFrequency,Dimension,ShiftSeverity,EnvironmentNumber,BenchmarkName)
+function Problem = BenchmarkGenerator_FPs(BenchmarkName, ConfigurableParameters)
    disp('FPs Running')
    Problem                     = [];
+   % Set Configurable Parameters
+   fieldNames = fieldnames(ConfigurableParameters);
+   for i = 1:length(fieldNames)
+       Problem.(fieldNames{i}) = ConfigurableParameters.(fieldNames{i}).value;
+   end
+   % Set Other Parameters
    Problem.FE                  = 0;
-   Problem.PeakNumber          = PeakNumber;
-   Problem.ChangeFrequency     = ChangeFrequency;
-   Problem.Dimension           = Dimension;
-   Problem.ShiftSeverity       = ShiftSeverity;
-   Problem.EnvironmentNumber   = EnvironmentNumber;
    Problem.Environmentcounter  = 1;
    Problem.RecentChange        = 0;
    Problem.MaxEvals            = Problem.ChangeFrequency * Problem.EnvironmentNumber;
@@ -42,7 +43,6 @@ function Problem = BenchmarkGenerator_FPs(PeakNumber,ChangeFrequency,Dimension,S
    Problem.MaxHeight           = 100;
    Problem.MinFunctionID       = 1;
    Problem.MaxFunctionID       = 8;
-   Problem.HeightSeverity      = 7;
    Problem.LowestValue         = 0;
    Problem.BenchmarkName       = BenchmarkName;
    Problem.OptimumValue        = NaN(Problem.EnvironmentNumber,1);
@@ -52,9 +52,9 @@ function Problem = BenchmarkGenerator_FPs(PeakNumber,ChangeFrequency,Dimension,S
    Problem.FunctionSelect      = NaN(Problem.EnvironmentNumber,Problem.PeakNumber);
    Problem.PeaksHeight(1,:)    = Problem.MinHeight + (Problem.MaxHeight-Problem.MinHeight)*rand(Problem.PeakNumber,1);
    Problem.OptimumValue(1)     = max(Problem.PeaksHeight(1,:));
-   Problem.SubSpace            = NaN(Dimension,2,PeakNumber,EnvironmentNumber);
-   Problem.SubSpaceLowest      = NaN(Problem.EnvironmentNumber,PeakNumber);
-   Problem.SubSpaceLinkage     = NaN(PeakNumber,PeakNumber);
+   Problem.SubSpace            = NaN(Problem.Dimension,2,Problem.PeakNumber,Problem.EnvironmentNumber);
+   Problem.SubSpaceLowest      = NaN(Problem.EnvironmentNumber,Problem.PeakNumber);
+   Problem.SubSpaceLinkage     = NaN(Problem.PeakNumber,Problem.PeakNumber);
    Problem.PeakVisibility      = ones(Problem.EnvironmentNumber,Problem.PeakNumber);
    Problem.FunctionSelect(1,:) = ceil(Problem.MinFunctionID-1 + (Problem.MaxFunctionID-Problem.MinFunctionID+1)*rand(Problem.PeakNumber,1));
    Problem.SubspaceWeight = zeros(Problem.EnvironmentNumber, Problem.PeakNumber); % Weight field to control each subspace size of a peak
@@ -64,19 +64,39 @@ function Problem = BenchmarkGenerator_FPs(PeakNumber,ChangeFrequency,Dimension,S
    Problem.SpaceChange         = 0;    %Set 1 to change subspace every environment.
    Problem.FunctionChange      = 0;    %Set 1 to change subspaces' functions every environment.
    %*****************************************************************************************************************
-   
-   Problem.SubspaceWeight(1,:) = ones(PeakNumber, 1) / PeakNumber;
-   [SubSpace, SubSpaceLinkage] = KDTree_Partition(PeakNumber, repmat([Problem.MinCoordinate, Problem.MaxCoordinate], Dimension, 1), Problem.SubspaceWeight(1,:));
-   for i = 1:PeakNumber
-       Problem.SubSpace(:,:,i,1) = zeros(Dimension,2);
+   % Set user defined indicators
+   Problem.Indicators = struct();
+   jsonText = fileread('Indicators/Indicators.json');
+   jsonText = regexprep(jsonText, '//[^\n\r]*', '');
+   IndicatorDefs = jsondecode(jsonText);
+   indicatorNames = fieldnames(IndicatorDefs);
+   for i = 1 : numel(indicatorNames)
+      name = indicatorNames{i};
+      Problem.Indicators.(name).type = IndicatorDefs.(name).type;
+      switch Problem.Indicators.(name).type
+          case 'FE based'
+              Problem.Indicators.(name).trend = NaN(1,Problem.MaxEvals);
+          case 'Environment based'
+              Problem.Indicators.(name).trend = NaN(1,Problem.EnvironmentNumber);
+          case 'None'
+              Problem.Indicators.(name).final = NaN;
+          otherwise
+              error('Unknown indicator type "%s" for %s', Problem.Indicators.(name).type, name);
+      end
+   end
+
+   Problem.SubspaceWeight(1,:) = ones(Problem.PeakNumber, 1) / Problem.PeakNumber;
+   [SubSpace, SubSpaceLinkage] = KDTree_Partition(Problem.PeakNumber, repmat([Problem.MinCoordinate, Problem.MaxCoordinate], Problem.Dimension, 1), Problem.SubspaceWeight(1,:));
+   for i = 1:Problem.PeakNumber
+       Problem.SubSpace(:,:,i,1) = zeros(Problem.Dimension,2);
    end
    for i = 1:size(SubSpace,1)
-       if(rem(i,Dimension) > 0) 
-           dim = rem(i,Dimension);
-       elseif (rem(i,Dimension) == 0) 
-           dim = Dimension;
+       if(rem(i,Problem.Dimension) > 0) 
+           dim = rem(i,Problem.Dimension);
+       elseif (rem(i,Problem.Dimension) == 0) 
+           dim = Problem.Dimension;
        end
-       Problem.SubSpace(dim,:,ceil(i/Dimension)) = SubSpace(i,:);
+       Problem.SubSpace(dim,:,ceil(i/Problem.Dimension)) = SubSpace(i,:);
    end
    Problem.SubSpaceLinkage = SubSpaceLinkage;
    
@@ -90,9 +110,9 @@ function Problem = BenchmarkGenerator_FPs(PeakNumber,ChangeFrequency,Dimension,S
    Problem.PeaksPositionMap(:,:,1) = Transfer(Problem.PeaksPosition(:,:,1),Problem,1);
    
    %Get Subspace Lowest Value for Flat Border.
-   bounder = zeros(PeakNumber,Dimension);
-   for i = 1:PeakNumber
-       for j = 1:Dimension
+   bounder = zeros(Problem.PeakNumber,Problem.Dimension);
+   for i = 1:Problem.PeakNumber
+       for j = 1:Problem.Dimension
         bounder(i,j) = Problem.SubSpace(j,1,i,1);
        end
    end
@@ -102,18 +122,18 @@ function Problem = BenchmarkGenerator_FPs(PeakNumber,ChangeFrequency,Dimension,S
    for ii=2 : Problem.EnvironmentNumber
        %Re-Set SubSpace
        if(Problem.SpaceChange == 1)
-           Problem.SubspaceWeight(1,:) = (ones(1, PeakNumber) / PeakNumber + 0.01 * (rand(1, PeakNumber) - 0.5)) / sum(ones(1, PeakNumber) / PeakNumber + 0.01 * (rand(1, PeakNumber) - 0.5));
-           [SubSpace, SubSpaceLinkage] = KDTree_Partition(PeakNumber, repmat([Problem.MinCoordinate, Problem.MaxCoordinate], Dimension, 1), Problem.SubspaceWeight(1,:));           
-           for i = 1:PeakNumber
-               Problem.SubSpace(:,:,i,ii) = zeros(Dimension,2);
+           Problem.SubspaceWeight(1,:) = (ones(1, Problem.PeakNumber) / Problem.PeakNumber + 0.01 * (rand(1, Problem.PeakNumber) - 0.5)) / sum(ones(1, Problem.PeakNumber) / Problem.PeakNumber + 0.01 * (rand(1, Problem.PeakNumber) - 0.5));
+           [SubSpace, SubSpaceLinkage] = KDTree_Partition(Problem.PeakNumber, repmat([Problem.MinCoordinate, Problem.MaxCoordinate], Problem.Dimension, 1), Problem.SubspaceWeight(1,:));           
+           for i = 1:Problem.PeakNumber
+               Problem.SubSpace(:,:,i,ii) = zeros(Problem.Dimension,2);
            end
            for i = 1:size(SubSpace,1)
-               if(rem(i,Dimension) > 0) 
-                   dim = rem(i,Dimension);
-               elseif (rem(i,Dimension) == 0) 
-                   dim = Dimension;
+               if(rem(i,Problem.Dimension) > 0) 
+                   dim = rem(i,Problem.Dimension);
+               elseif (rem(i,Problem.Dimension) == 0) 
+                   dim = Problem.Dimension;
                end
-               Problem.SubSpace(dim,:,ceil(i/Dimension),ii) = SubSpace(i,:);
+               Problem.SubSpace(dim,:,ceil(i/Problem.Dimension),ii) = SubSpace(i,:);
            end
            Problem.SubSpaceLinkage = SubSpaceLinkage;
            %Re-Set Position
@@ -127,9 +147,9 @@ function Problem = BenchmarkGenerator_FPs(PeakNumber,ChangeFrequency,Dimension,S
        elseif(Problem.SpaceChange == 0)
            Problem.SubSpace(:,:,:,ii) = Problem.SubSpace(:,:,:,ii-1);
            %Position Change
-           v =  (-1) + (1 - (-1))*rand(PeakNumber,Dimension);
-           v_normed = zeros(PeakNumber,Dimension);
-           for l = 1:PeakNumber
+           v =  (-1) + (1 - (-1))*rand(Problem.PeakNumber,Problem.Dimension);
+           v_normed = zeros(Problem.PeakNumber,Problem.Dimension);
+           for l = 1:Problem.PeakNumber
                v_normed(l,:) = v(l,:)./norm(v(l,:));
            end
            if(ii - 2 > 0)
@@ -168,9 +188,9 @@ function Problem = BenchmarkGenerator_FPs(PeakNumber,ChangeFrequency,Dimension,S
        Problem.PeaksPositionMap(:,:,ii) = Transfer(Problem.PeaksPosition(:,:,ii),Problem,ii);
        
        %Get Subspace Lowest Value for Flat Border.
-       bounder = zeros(PeakNumber,Dimension);
-       for i = 1:PeakNumber
-           for j = 1:Dimension
+       bounder = zeros(Problem.PeakNumber,Problem.Dimension);
+       for i = 1:Problem.PeakNumber
+           for j = 1:Problem.Dimension
                    bounder(i,j) = Problem.SubSpace(j,1,i,ii);
            end
        end

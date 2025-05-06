@@ -1,0 +1,38 @@
+{
+  "Table": [
+    {
+      "Parameter": "Dimension",
+      "GUIName": "Problem.Dimension",
+      "Type": "Positive integer",
+      "SuggestedValues": "{2, 5, 10, 20}★"
+    },
+    {
+      "Parameter": "Number of promising regions",
+      "GUIName": "Problem.PeakNumber",
+      "Type": "Positive integer",
+      "SuggestedValues": "{10, 25, 50, 100}"
+    },
+    {
+      "Parameter": "Change frequency",
+      "GUIName": "Problem.ChangeFrequency",
+      "Type": "Positive integer",
+      "SuggestedValues": "{500, 1000, 2500, 5000}"
+    },
+    {
+      "Parameter": "Shift severity",
+      "GUIName": "Problem.ShiftSeverity",
+      "Type": "Non-negative real valued",
+      "SuggestedValues": "{1, 2, 5}"
+    },
+    {
+      "Parameter": "Number of environments",
+      "GUIName": "Problem.EnvironmentNumber",
+      "Type": "Positive integer",
+      "SuggestedValues": "100†"
+    }
+  ],
+  "Notes": [
+    "★ These are suggested values for the experimentation application. In the education application, the dimension can only be set to two.",
+    "† For the sake of understandability, the number of environments is suggested to be set between 10 and 20 in the education application."
+  ]
+}

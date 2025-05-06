@@ -1,7 +1,7 @@
 %**************Moving Peaks Benchmark (MPB)***********************************************
 %Author: Danial Yazdani
 %e-mail: danial DOT yazdani AT gmail DOT com
-%Last Edited: February 10, 2022
+%Last Edited: May 6, 2025
 %
 % ------------
 % Reference:
@@ -28,15 +28,16 @@
 % e-mail: danial DOT yazdani AT gmail DOT com
 % Copyright notice: (c) 2023 Danial Yazdani
 %*****************************************************************************************
-function Problem = BenchmarkGenerator_MPB(PeakNumber,ChangeFrequency,Dimension,ShiftSeverity,EnvironmentNumber,BenchmarkName)
+function Problem = BenchmarkGenerator_MPB(BenchmarkName, ConfigurableParameters)
     disp('MPB Running')
     Problem                     = [];
+    % Set Configurable Parameters
+    fieldNames = fieldnames(ConfigurableParameters);
+    for i = 1:length(fieldNames)
+        Problem.(fieldNames{i}) = ConfigurableParameters.(fieldNames{i}).value;
+    end
+    % Set Other Parameters
     Problem.FE                  = 0;
-    Problem.PeakNumber          = PeakNumber;
-    Problem.ChangeFrequency     = ChangeFrequency;
-    Problem.Dimension           = Dimension;
-    Problem.ShiftSeverity       = ShiftSeverity;
-    Problem.EnvironmentNumber   = EnvironmentNumber;
     Problem.Environmentcounter  = 1;
     Problem.RecentChange        = 0;
     Problem.MaxEvals            = Problem.ChangeFrequency * Problem.EnvironmentNumber;
@@ -48,8 +49,6 @@ function Problem = BenchmarkGenerator_MPB(PeakNumber,ChangeFrequency,Dimension,S
     Problem.MaxHeight           = 70;
     Problem.MinWidth            = 1;
     Problem.MaxWidth            = 12;
-    Problem.HeightSeverity      = 7;
-    Problem.WidthSeverity       = 1;
     Problem.PeakVisibility      = zeros(Problem.EnvironmentNumber,Problem.PeakNumber);
     Problem.OptimumValue        = NaN(Problem.EnvironmentNumber,1);
     Problem.PeaksHeight         = NaN(Problem.EnvironmentNumber,Problem.PeakNumber);
@@ -61,6 +60,28 @@ function Problem = BenchmarkGenerator_MPB(PeakNumber,ChangeFrequency,Dimension,S
     Problem.OptimumValue(1)     = max(Problem.PeaksHeight(1,:));
     Problem.BenchmarkName       = BenchmarkName;
     [Problem.OptimumValue(1), Problem.OptimumID(1)] = max(Problem.PeaksHeight(1,:));
+
+    % Set user defined indicators
+    Problem.Indicators = struct();
+        jsonText = fileread('Indicators/Indicators.json');
+    jsonText = regexprep(jsonText, '//[^\n\r]*', '');
+    IndicatorDefs = jsondecode(jsonText);
+    indicatorNames = fieldnames(IndicatorDefs);
+    for i = 1 : numel(indicatorNames)
+       name = indicatorNames{i};
+       Problem.Indicators.(name).type = IndicatorDefs.(name).type;
+       switch Problem.Indicators.(name).type
+           case 'FE based'
+               Problem.Indicators.(name).trend = NaN(1,Problem.MaxEvals);
+           case 'Environment based'
+               Problem.Indicators.(name).trend = NaN(1,Problem.EnvironmentNumber);
+           case 'None'
+               Problem.Indicators.(name).final = NaN;
+           otherwise
+               error('Unknown indicator type "%s" for %s', Problem.Indicators.(name).type, name);
+       end
+    end
+    
     for jj=1:Problem.PeakNumber
         if EnvironmentVisualization(Problem.PeaksPosition(jj,:,1),Problem)==Problem.PeaksHeight(1,jj)
             Problem.PeakVisibility(1,jj)= 1;

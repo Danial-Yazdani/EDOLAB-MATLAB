@@ -1,7 +1,7 @@
 %**************Generalized Moving Peaks Benchmark (GMPB)******************************************************************************
 %
 %Author: Danial Yazdani
-%Last Edited: December 10, 2023
+%Last Edited: May 6, 2025
 %e-mail: danial DOT yazdani AT gmail DOT com
 %
 % ------------
@@ -30,15 +30,16 @@
 % e-mail: danial DOT yazdani AT gmail DOT com
 % Copyright notice: (c) 2023 Danial Yazdani
 %*************************************************************************************************************************************
-function Problem = BenchmarkGenerator_GMPB(PeakNumber,ChangeFrequency,Dimension,ShiftSeverity,EnvironmentNumber,BenchmarkName)
+function Problem = BenchmarkGenerator_GMPB(BenchmarkName, ConfigurableParameters)
      disp('GMPB Running')
      Problem                     = [];
+     % Set Configurable Parameters
+     fieldNames = fieldnames(ConfigurableParameters);
+     for i = 1:length(fieldNames)
+         Problem.(fieldNames{i}) = ConfigurableParameters.(fieldNames{i}).value;
+     end
+     % Set Other Parameters
      Problem.FE                  = 0;
-     Problem.PeakNumber          = PeakNumber;
-     Problem.ChangeFrequency     = ChangeFrequency;
-     Problem.Dimension           = Dimension;
-     Problem.ShiftSeverity       = ShiftSeverity;
-     Problem.EnvironmentNumber   = EnvironmentNumber;
      Problem.Environmentcounter  = 1;
      Problem.RecentChange        = 0;
      Problem.MaxEvals            = Problem.ChangeFrequency * Problem.EnvironmentNumber;
@@ -57,11 +58,6 @@ function Problem = BenchmarkGenerator_GMPB(PeakNumber,ChangeFrequency,Dimension,
      Problem.MinTau              = 0.1;
      Problem.MaxEta              = 50;
      Problem.MinEta              = 0;
-     Problem.HeightSeverity      = 7;
-     Problem.AngleSeverity       = pi/9;
-     Problem.TauSeverity         = 0.2;
-     Problem.EtaSeverity         = 10;
-     Problem.WidthSeverity       = 1;
      Problem.BenchmarkName       = BenchmarkName;
      Problem.OptimumValue        = NaN(Problem.EnvironmentNumber,1);
      Problem.OptimumID           = NaN(Problem.EnvironmentNumber,1);
@@ -87,6 +83,28 @@ function Problem = BenchmarkGenerator_GMPB(PeakNumber,ChangeFrequency,Dimension,
      Problem.PeaksAngle(1,:)     = Problem.MinAngle + (Problem.MaxAngle-Problem.MinAngle)*rand(Problem.PeakNumber,1);
      Problem.tau(1,:)            = Problem.MinTau + (Problem.MaxTau-Problem.MinTau)*rand(Problem.PeakNumber,1);
      Problem.eta(:,:,1)          = Problem.MinEta + (Problem.MaxEta-Problem.MinEta)*rand(Problem.PeakNumber,4);
+  
+     % Set user defined indicators
+     Problem.Indicators = struct();
+     jsonText = fileread('Indicators/Indicators.json');
+     jsonText = regexprep(jsonText, '//[^\n\r]*', '');
+     IndicatorDefs = jsondecode(jsonText);
+     indicatorNames = fieldnames(IndicatorDefs);
+     for i = 1 : numel(indicatorNames)
+        name = indicatorNames{i};
+        Problem.Indicators.(name).type = IndicatorDefs.(name).type;
+        switch Problem.Indicators.(name).type
+            case 'FE based'
+                Problem.Indicators.(name).trend = NaN(1,Problem.MaxEvals);
+            case 'Environment based'
+                Problem.Indicators.(name).trend = NaN(1,Problem.EnvironmentNumber);
+            case 'None'
+                Problem.Indicators.(name).final = NaN;
+            otherwise
+                error('Unknown indicator type "%s" for %s', Problem.Indicators.(name).type, name);
+        end
+     end
+
      for jj=1:Problem.PeakNumber
          if EnvironmentVisualization(Problem.PeaksPosition(jj,:,1),Problem)==Problem.PeaksHeight(1,jj)
              Problem.PeakVisibility(1,jj)= 1;

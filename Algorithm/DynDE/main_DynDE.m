@@ -1,7 +1,7 @@
 %*********************************DynDE*****************************************
 %Author: Mai Peng
 %e-mail: pengmai1998 AT gmail DOT com
-%Last Edited: September 29, 2024
+%Last Edited: May 6, 2025
 %
 % ------------
 % Reference:
@@ -19,11 +19,16 @@
 % e-mail: danial DOT yazdani AT gmail DOT com
 % Copyright notice: (c) 2023 Danial Yazdani
 %**************************************************************************************************
-function [Problem,E_bbc,E_o,T_r,CurrentError,VisualizationInfo,Iteration] = main_DynDE(VisualizationOverOptimization,PeakNumber,ChangeFrequency,Dimension,ShiftSeverity,EnvironmentNumber,RunNumber,BenchmarkName)
+function [Problem,Results,CurrentError,VisualizationInfo,Iteration] = main_DynDE(VisualizationOverOptimization, RunNumber, BenchmarkName, ConfigurableProParameters, ConfigurableAlgParameters, progressInfo)
+%% Send Progress if Parallel is ON
+if isfield(progressInfo, 'IsParallel') && progressInfo.IsParallel
+    send(progressInfo.Queue, struct('TaskID', progressInfo.TaskID, 'Status', 'Running', 'Progress', '0%'));
+end
 BestErrorBeforeChange = NaN(1,RunNumber);
 OfflineError = NaN(1,RunNumber);
-CurrentError = NaN (RunNumber,ChangeFrequency*EnvironmentNumber);
+CurrentError = NaN (RunNumber,ConfigurableProParameters.ChangeFrequency.value*ConfigurableProParameters.EnvironmentNumber.value);
 Runtime = NaN(1,RunNumber);
+indicators = struct();
 
 % The above lines define the parameters used for gathering data for outputs including 
 % performance indicators, plots, and runtime. 
@@ -34,18 +39,21 @@ for RunCounter=1 : RunNumber
     if VisualizationOverOptimization ~= 1
         rng(RunCounter);%This random seed setting is used to initialize the Problem
     end
-    Problem = BenchmarkGenerator(PeakNumber,ChangeFrequency,Dimension,ShiftSeverity,EnvironmentNumber,BenchmarkName);
+    Problem = BenchmarkGenerator(BenchmarkName, ConfigurableProParameters);    
     rng('shuffle');%Set a random seed for the optimizer
     tic; % Start runtime tracking for the current run
     % The lines above (including the start of the loop) are common between the main files of all EDOAs.
     %% Initialiing Optimizer
     clear Optimizer;
+    % Set Configurable Parameters
+    fieldNames = fieldnames(ConfigurableAlgParameters);
+    for i = 1:length(fieldNames)
+        Optimizer.(fieldNames{i}) = ConfigurableAlgParameters.(fieldNames{i}).value;
+    end
+
     Optimizer.Dimension = Problem.Dimension;
-    Optimizer.initPopulationSize = 100;
     Optimizer.MaxCoordinate = Problem.MaxCoordinate;
     Optimizer.MinCoordinate = Problem.MinCoordinate;
-    Optimizer.CR = 0.6;
-    Optimizer.F = 0.5;
     Optimizer.SwarmNumber = 10;
     Optimizer.IndivSize = 10;
     Optimizer.BrownNumber = 5;
@@ -55,20 +63,35 @@ for RunCounter=1 : RunNumber
     Optimizer.OverlapDegree = 0.1;
     Optimizer.FirstUpdate = 1;
     %Choose Diversity StrategyFlag
-    Optimizer.DiversityFlag = 1;    % 1: Brownian Individuals    
-                                    % 2: Quantum Individuals    
+    % diversityMap = containers.Map(...
+    %     {'Brownian Individuals', 'Quantum Individuals', 'Normal Individuals'}, ...
+    %     [1, 2, 3] ...
+    % );
+    % Optimizer.DiversityFlag = diversityMap(ConfigurableAlgParameters.DiversityFlag.value);    % 1: Brownian Individuals    
+                                                                                                % 2: Quantum Individuals
+    Optimizer.DiversityFlag = 1;    
     %Random CR/F or Not
-    Optimizer.RandomFlag = 2;       % 1: Random CR/F             
-                                    % 2: Fixed CR/F
+    randomMap = containers.Map(...
+        {'Random CR/F', 'Fixed CR/F'}, ...
+        [1, 2] ...
+    );
+    Optimizer.RandomFlag = randomMap(ConfigurableAlgParameters.RandomFlag.value);       % 1: Random CR/F             
+                                                                                      % 2: Fixed CR/F
     %Choose DE Strategy
-    Optimizer.StrategyFlag = 4;     % 0: Random Strategy
-                                    % 1: DE/RAND/1    
-                                    % 2: DE/RAND/2    
-                                    % 3: DE/BEST/1   
-                                    % 4: DE/BEST/2    
-                                    % 5: DE/RAND-TO-BEST/1     
-                                    % 6: DE/CURRENT-TO-RAND/1     
-                                    % 7: DE/CURRENT-TO-BEST/1 
+    strategyMap = containers.Map(...
+        {'Random Strategy', 'DE/RAND/1', 'DE/RAND/2', 'DE/BEST/1', 'DE/BEST/2', 'DE/RAND-TO-BEST/1', 'DE/CURRENT-TO-RAND/1', 'DE/CURRENT-TO-BEST/1'}, ...
+        [0, 1, 2, 3, 4, 5, 6, 7] ...
+    );
+
+    % 0: Random Strategy
+    % 1: DE/RAND/1    
+    % 2: DE/RAND/2    
+    % 3: DE/BEST/1
+    % 4: DE/BEST/2
+    % 5: DE/RAND-TO-BEST/1  
+    % 6: DE/CURRENT-TO-RAND/1
+    % 7: DE/CURRENT-TO-BEST/1
+    Optimizer.StrategyFlag = strategyMap(ConfigurableAlgParameters.StrategyFlag.value); 
     [Optimizer.pop,Problem] = SubPopulationGenerator_DynDE(Optimizer.Dimension,Optimizer.MinCoordinate,Optimizer.MaxCoordinate,Optimizer.SwarmNumber,Optimizer.IndivSize,Problem,Optimizer.DiversityFlag,Optimizer.RandomFlag,Optimizer.StrategyFlag);
     Optimizer.SwarmNumber = length(Optimizer.pop);
     VisualizationFlag=0;
@@ -82,7 +105,7 @@ for RunCounter=1 : RunNumber
     while 1
         Iteration = Iteration + 1;
         %% Visualization for education module
-        if (VisualizationOverOptimization==1 && Dimension == 2)
+        if (VisualizationOverOptimization==1 && Optimizer.Dimension == 2)
             if VisualizationFlag==0
                 VisualizationFlag=1;
                 T = Problem.MinCoordinate : ( Problem.MaxCoordinate-Problem.MinCoordinate)/100 :  Problem.MaxCoordinate;
@@ -116,7 +139,12 @@ for RunCounter=1 : RunNumber
             Problem.RecentChange = 0;
             [Optimizer,Problem] = ChangeReaction_DynDE(Optimizer,Problem);
             VisualizationFlag = 0;
-            clc; disp(['Run number: ',num2str(RunCounter),'   Environment number: ',num2str(Problem.Environmentcounter)]);
+            disp(['Run number: ',num2str(RunCounter),'   Environment number: ',num2str(Problem.Environmentcounter)]);
+            if isfield(progressInfo, 'IsParallel') && progressInfo.IsParallel && mod(Problem.Environmentcounter, 2) == 0
+                progressValue = 100 * (Problem.Environmentcounter + (RunCounter-1) * Problem.EnvironmentNumber) /(Problem.EnvironmentNumber * RunNumber);
+                progressStr = [sprintf('%.2f', progressValue), '%'];
+                send(progressInfo.Queue, struct('TaskID', progressInfo.TaskID, 'Status', 'Running', 'Progress', progressStr));
+            end
         end
         if  Problem.FE >= Problem.MaxEvals%When termination criteria has been met
             break;
@@ -128,24 +156,64 @@ for RunCounter=1 : RunNumber
     Runtime(1,RunCounter) = elapsedTime;  % Store the runtime for the current run
     BestErrorBeforeChange(1,RunCounter) = mean(Problem.Ebbc);  % Calculate and store average best error before each environmental change
     OfflineError(1,RunCounter) = mean(Problem.CurrentError);  % Calculate and store the offline error across all function evaluations
-    CurrentError(RunCounter,:) = Problem.CurrentError;  % Record current error values for plotting convergence behavior over time
+     CurrentError(RunCounter,:) = Problem.CurrentError; % Record current error values for plotting convergence behavior over time
+    % User defined Indicators for all EDOAs.
+    fnames = fieldnames(Problem.Indicators);
+    for m = 1 : numel(fnames)
+        name = fnames{m};
+        info = Problem.Indicators.(name);
+        indicators.(name).type = info.type;
+        switch info.type
+          case {'FE based','Environment based'}
+            indicators.(name).trend(RunCounter, :) = Problem.Indicators.(name).trend;
+            indicators.(name).final(RunCounter) = mean(Problem.Indicators.(name).trend);
+          case 'None'
+            indicators.(name).final(RunCounter) = Problem.Indicators.(name).final;
+          otherwise
+            error('Unknown indicator type "%s" for %s', info.type, name);
+        end
+    end
+    %% Send Progress if Parallel is ON
+    if isfield(progressInfo, 'IsParallel') && progressInfo.IsParallel
+        send(progressInfo.Queue, struct('TaskID', progressInfo.TaskID, 'Status', 'Running', 'Progress', [num2str(sprintf('%.2f', RunCounter/RunNumber * 100)), '%']));
+    end
 end
 %% Output Preparation: Common Across All EDOAs
 % This section gathers and summarizes the results of the experiment, including
 % performance indicators (E_bbc for Best Error Before Change, E_o for Offline Error),
 % runtime statistics (T_r), and any visualization data if enabled.
-E_bbc.mean = mean(BestErrorBeforeChange);
-E_bbc.median = median(BestErrorBeforeChange);
-E_bbc.StdErr = std(BestErrorBeforeChange)/sqrt(RunNumber);
-E_bbc.AllResults = BestErrorBeforeChange;
-E_o.mean = mean(OfflineError);
-E_o.median = median(OfflineError);
-E_o.StdErr = std(OfflineError)/sqrt(RunNumber);
-E_o.AllResults =OfflineError;
-T_r.mean = mean(Runtime);
-T_r.median = median(Runtime);
-T_r.StdErr = std(Runtime)/sqrt(RunNumber);
-T_r.AllResults = Runtime;
+
+% User defined indicators for all EDOAs
+fnames = fieldnames(indicators);
+for m = 1 : numel(fnames)
+    name = fnames{m};
+    indicator  = indicators.(name);
+    type = indicator.type;
+    Results.(name).type = type;
+    switch type
+      case {'FE based','Environment based'}
+        data = indicator.trend;
+        final = indicator.final;
+        Results.(name).AllResults = final;
+        Results.(name).trend  = data;
+        Results.(name).mean   = mean(final);
+        Results.(name).median = median(final);
+        Results.(name).StdErr = std(final)/sqrt(RunNumber);
+      case 'None'
+        final = indicator.final;
+        Results.(name).AllResults = final;
+        Results.(name).mean   = mean(final);
+        Results.(name).median = median(final);
+        Results.(name).StdErr = std(final)/sqrt(RunNumber);
+      otherwise
+        error('Unknown indicator type "%s" for %s', type, name);
+    end
+end
+Results.T_r.mean = mean(Runtime);
+Results.T_r.median = median(Runtime);
+Results.T_r.StdErr = std(Runtime)/sqrt(RunNumber);
+Results.T_r.AllResults = Runtime;
+
 if VisualizationOverOptimization==1
     tmp = cell(1, Iteration);
     for ii=1 : Iteration
