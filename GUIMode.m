@@ -191,26 +191,38 @@ classdef GUIMode < matlab.apps.AppBase
     % Methods for Startup
     methods (Access = private)
         function checkMATLABVersion(app)
-            app.isMATLABReleaseOlderThan_R2020b = isMATLABReleaseOlderThan("R2020b");
-            app.isMATLABReleaseOlderThan_R2024a = isMATLABReleaseOlderThan("R2024a");
+            try
+                app.isMATLABReleaseOlderThan_R2020b = isMATLABReleaseOlderThan("R2020b");
+                app.isMATLABReleaseOlderThan_R2024a = isMATLABReleaseOlderThan("R2024a");
+
+            catch
+                app.isMATLABReleaseOlderThan_R2020b = true;
+                app.isMATLABReleaseOlderThan_R2024a = true;
+            end
+        
             if app.isMATLABReleaseOlderThan_R2020b
-                error(['❌ This application does not support MATLAB versions older than R2020b.' newline ...
-                    'Please upgrade your MATLAB installation.']);
+                error([
+                    '❌ This application does not support MATLAB versions older than R2020b.' newline ...
+                    'Please upgrade your MATLAB installation.'
+                ]);
             elseif app.isMATLABReleaseOlderThan_R2024a
-                warning(['⚠ Your MATLAB version is older than R2024a. The thread-based parallel pool will be disabled.' newline ...
-                         'You can still use the process-based parallel pool, but upgrading to R2024a or later is recommended.']);
-                app.PoolTypeItem = {'Processes pool'};
+                warning([
+                    '⚠ Your MATLAB version is older than R2024a. The thread-based parallel pool will be disabled.' newline ...
+                    'You can still use the process-based parallel pool, but upgrading to R2024a or later is recommended.'
+                ]);
+                app.PoolTypeItem  = {'Process Pool'};
                 app.PoolTypeValue = {'processes'};
-                app.NowPoolType = 'processes';
+                app.NowPoolType   = 'processes';
             else
                 v = ['Release R' version('-release')];
                 disp(['✅ Your MATLAB version (' v ') is compatible.']);
                 disp('For optimal performance and compatibility, using the latest MATLAB version is recommended.');
-                app.PoolTypeItem = {'Thread Pool', 'Process Pool'};
+                app.PoolTypeItem  = {'Thread Pool', 'Process Pool'};
                 app.PoolTypeValue = {'threads', 'processes'};
-                app.NowPoolType = 'processes';
+                app.NowPoolType   = 'processes';
             end
         end
+
 
         function initializeTasks(app)
             app.Tasks = containers.Map('KeyType', 'char', 'ValueType', 'any');
@@ -4225,7 +4237,7 @@ classdef GUIMode < matlab.apps.AppBase
                     y = avgError{k};
                     if isempty(y), continue; end
                     x = 1:numel(y);
-                    plot(ax, x(end-50000:end), y(end-50000:end), ...
+                    plot(ax, x, y, ...
                          'Color',      C(k,:), ...
                          'LineStyle',  Ls{mod(k-1,4)+1}, ...
                          'LineWidth',  lw, ...
