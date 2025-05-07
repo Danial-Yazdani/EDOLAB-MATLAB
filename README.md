@@ -298,13 +298,13 @@ mkoctfile --mex ConstructKDTree.cpp
 
 ## For More Information
 
-For more information about EDOLAB, please refer to the [paper and user manual](https://arxiv.org/abs/2308.12644). If you need further assistance, please contact Mai Peng at [pengmai1998@gmail.com](mailto:pengmai1998@gmail.com) or Danial Yazdani at [danial.yazdani@gmail.com](mailto:danial.yazdani@gmail.com).
+For more information about EDOLAB, please refer to the [paper](https://arxiv.org/abs/2308.12644) and user manual. If you need further assistance, please contact Mai Peng at [pengmai1998@gmail.com](mailto:pengmai1998@gmail.com) or Danial Yazdani at [danial.yazdani@gmail.com](mailto:danial.yazdani@gmail.com).
 
 ## MATLAB Support
 <img src="https://www.mathworks.com/etc.clientlibs/mathworks/clientlibs/customer-ui/templates/common/resources/images/pic-header-mathworks-logo.20221030234646672.svg" width="35%">
 <br>
 
-* **GUI Mode** requires [MATLAB R2020b+](https://www.mathworks.com/products/new_products/release2020b.html). Recommended [MATLAB R2024a](https://www.mathworks.com/products/new_products/release2024a.html) or later.
+* **GUI Mode** requires [MATLAB R2020b+](https://www.mathworks.com/products/new_products/release2020b.html) and the **Parallel Computing Toolbox**. Recommended [MATLAB R2024a](https://www.mathworks.com/products/new_products/release2024a.html) or later.
 * **Code Mode** requires [MATLAB R2016b+](https://www.mathworks.com/help/doc-archives.html).
 
 
