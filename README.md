@@ -9,9 +9,9 @@
 ## Author List
 * **MAI PENG**, pengmai@cug.edu.cn, School of Automation, China University of Geosciences,Wuhan, Hubei Key Laboratory of Advanced Control and Intelligent Automation for Complex Systems, and Engineering Research Center of Intelligent Technology for Geo-Exploration, Ministry of Education, China, 430074; 
 
-* **DELARAM YAZDANI**, delaram.yazdani@yahoo.com, Department of Computer Engineering, Mashhad Branch, Azad University, Mashhad, Iran; 
+* **DELARAM YAZDANI**, delaram.yazdani@yahoo.com, Liverpool Logistics, Offshore and Marine (LOOM) Research Institute, Faculty of Engineering and Technology, Liverpool John Moores University, United Kingdom, L2 2ER; 
 
-* **DANIAL YAZDANI**, danial.yazdani@gmail.com, Faculty of Engineering & Information Technology, University of Technology Sydney, Ultimo, Australia, 2007;
+* **DANIAL YAZDANI**, danial.yazdani@gmail.com, Business Intelligence Group, Department of Technology, WINC Australia, Australia;
 
 * **ZENENG SHE**, 20s151103@stu.hit.edu.cn, School of Computer Science and Technology, Harbin Institute of Technology, Shenzhen, China, 518055; 
 
