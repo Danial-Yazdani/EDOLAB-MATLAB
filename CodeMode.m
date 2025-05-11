@@ -104,7 +104,7 @@ end
 
 % Generating an Excel file containing output statistics (only for the Experimentation module)
 if GeneratingExcelFile==1
-    OutputDetailResultsToExcel(AlgorithmName, ConfigurableAlgParameters, BenchmarkName, ConfigurableProParameters, Results, [projectPath,'\Results\Task Detail Results']);
+    OutputDetailResultsToExcel(AlgorithmName, ConfigurableAlgParameters, BenchmarkName, ConfigurableProParameters, Results, [projectPath,'\Results\TaskDetailResults']);
 end
 % Generating an output figure containing offline error and current error plots (only for the Experimentation module)
 if OutputFig==1

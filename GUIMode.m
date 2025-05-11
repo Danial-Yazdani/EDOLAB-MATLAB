@@ -3158,7 +3158,7 @@ classdef GUIMode < matlab.apps.AppBase
                 return;
             end
         
-            resultsDir = fullfile(app.projectPath, 'Results', 'Batch Records');
+            resultsDir = fullfile(app.projectPath, 'Results', 'BatchRecords');
             if ~exist(resultsDir, 'dir')
                 mkdir(resultsDir);
             end
@@ -3170,7 +3170,7 @@ classdef GUIMode < matlab.apps.AppBase
             try
                 save(filePath, 'savedTasks', '-v7.3');
                 uialert(app.UIFigure, ...
-                    "Selected tasks exported successfully to '/Results/Batch Records/'. " + ...
+                    "Selected tasks exported successfully to '/Results/BatchRecords/'. " + ...
                     "Files are named like: CompletedTasks_YYYYMMDDTHHMMSS.mat", ...
                     'Export Complete', 'Icon', 'success');
                 close(progressDialog);
@@ -3183,7 +3183,7 @@ classdef GUIMode < matlab.apps.AppBase
 
         function importCompletedResults(app)
             % Select .MAT file
-            [file, path] = uigetfile('*.mat', 'Import Completed Tasks', fullfile(app.projectPath, 'Results', 'Batch Records'));
+            [file, path] = uigetfile('*.mat', 'Import Completed Tasks', fullfile(app.projectPath, 'Results', 'BatchRecords'));
         
             % If the user cancels the selection, exit
             if isequal(file, 0)
@@ -4344,7 +4344,7 @@ classdef GUIMode < matlab.apps.AppBase
                 return;
             end
         
-            resultsDir = fullfile(app.projectPath, 'Results', 'Statistical Analysis');
+            resultsDir = fullfile(app.projectPath, 'Results', 'StatisticalAnalysis');
             if ~exist(resultsDir, 'dir')
                 mkdir(resultsDir);
             end
@@ -4391,7 +4391,7 @@ classdef GUIMode < matlab.apps.AppBase
                 T = cell2table(updatedResults, 'VariableNames', makeUniqueNames(app.SAColNames), 'RowNames', updatedRowNames);
                 writetable(T, filePath, 'WriteRowNames', true);
                 uialert(app.SAFigure, ...
-                    "Results exported successfully to '/Results/Statistical Analysis/'. " + ...
+                    "Results exported successfully to '/Results/StatisticalAnalysis/'. " + ...
                     "Files are named using the format: SA_[Analysis Method]_YYYYMMDDTHHMMSS.xlsx", ...
                     'Success', 'Icon', 'success');
             catch ME
@@ -4420,7 +4420,7 @@ classdef GUIMode < matlab.apps.AppBase
                 return;
             end
         
-            resultsDir = fullfile(app.projectPath, 'Results', 'Statistical Analysis');
+            resultsDir = fullfile(app.projectPath, 'Results', 'StatisticalAnalysis');
             if ~exist(resultsDir, 'dir')
                 mkdir(resultsDir);
             end
@@ -4465,7 +4465,7 @@ classdef GUIMode < matlab.apps.AppBase
                 writetable(T, filePath, 'WriteRowNames', true);
                 
                 uialert(app.SAFigure, ...
-                    "Results exported successfully to '/Results/Statistical Analysis/'. " + ...
+                    "Results exported successfully to '/Results/StatisticalAnalysis/'. " + ...
                     "Files are named using the format: SA_[Analysis Method]_YYYYMMDDTHHMMSS.xlsx", ...
                     'Success', 'Icon', 'success');
             catch ME
@@ -4568,10 +4568,10 @@ classdef GUIMode < matlab.apps.AppBase
                 task.Benchmark, ...
                 task.BenchmarkParameters, ...
                 task.Result, ...
-                [app.projectPath, '/Results/Task Detail Results']);
+                [app.projectPath, '/Results/TaskDetailResults']);
             close(progressDialog);
             uialert(app.UIFigure, ...
-                "Tasks exported successfully to '/Results/Task Detail Results/'. " + ...
+                "Tasks exported successfully to '/Results/TaskDetailResults/'. " + ...
                 "Files are named using the format: [Algorithm]_[Problem]_YYYYMMDDTHHMMSS.xlsx", ...
                 'Success', 'Icon', 'success');
         end

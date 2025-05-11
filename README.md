@@ -45,7 +45,7 @@ Modular structure with core components:
 ├── Algorithm/             # EDOA implementations (ACFPSO, CDE, mQSO, etc.)
 ├── Benchmark/             # Benchmark generators (GMPB, MPB, FPs, GDBG)
 ├── Utility/               # Helper functions
-├── Octave_compatibility/  # Octave-specific adaptations
+├── OctaveVersion/         # Octave supports
 ├── GUIMode.m              # GUI entry point
 └── CodeMode.m             # Script mode entry
 ```
@@ -284,15 +284,22 @@ run CodeMode.m
 
 
 ## Octave Support
-1. Replace files with those in `Octave_compatibility/`
-2. Install required packages:
+EDOLAB provides full functionality in Octave through its dedicated OctaveVersion implementation. This standalone version maintains all core features while addressing key compatibility requirements.
+
+1. Install required packages:
 ```octave
 pkg install -forge io statistics
 pkg load io statistics
 ```
-3. Compile KDTree component:
+2. Compile KDTree component:
 ```bash
+cd OctaveVersion/Benchmark
 mkoctfile --mex ConstructKDTree.cpp
+```
+
+3. Execute the main controller script:
+```bash
+run OctaveVersion/OctaveCodeMode.m
 ```
 
 
