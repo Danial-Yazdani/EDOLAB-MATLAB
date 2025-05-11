@@ -31,7 +31,9 @@ clear all;close all;clc;
 %% Add the full path of EDOLAB folder and its subfolders into MATLAB's work space
 nowPath = mfilename('fullpath');
 projectPath = nowPath(1:max(strfind(nowPath,'\'))-1);
-addpath(genpath(projectPath));
+allPaths = genpath(projectPath);
+pathsToAdd = regexprep(allPaths, '[^;]*OctaveVersion[^;]*;?', '');
+addpath(pathsToAdd);
 %% ********Selecting Algorithm & Benchmark********
 AlgorithmName = 'ACFPSO';    %Please input the name of algorithm (EADO) you want to run here (names are case sensitive).
 %  The list of algorithms (EADOs) and some of their details can be found in Table 1 of the EDOLAB's paper.

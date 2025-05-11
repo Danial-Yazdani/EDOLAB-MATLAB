@@ -1055,8 +1055,9 @@ classdef GUIMode < matlab.apps.AppBase
             %% Add the full path of EDOLAB folder and its subfolders into work space
             nowPath = mfilename('fullpath');
             app.projectPath = nowPath(1:max(strfind(nowPath,'\'))-1);
-            addpath(genpath(app.projectPath));
-            
+            allPaths = genpath(app.projectPath);
+            pathsToAdd = regexprep(allPaths, '[^;]*OctaveVersion[^;]*;?', '');
+            addpath(pathsToAdd);            
             [app.AlgorithmList.Items, app.BenchmarkList.Items]...
                 = app.getAlgAndBenchName();
             
